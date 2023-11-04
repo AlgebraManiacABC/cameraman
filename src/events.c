@@ -1,4 +1,5 @@
 #include "events.h"
+#include "game.h"
 
 int handleEvents(bool *shouldClose, Uint32 * buttonsHeld)
 {
@@ -19,16 +20,22 @@ int handleEvents(bool *shouldClose, Uint32 * buttonsHeld)
 						(*shouldClose) = true;
 						return eventCount;
 					case SDL_SCANCODE_W:
+						(*buttonsHeld) |= HOLDING_W;
 						break;
 					case SDL_SCANCODE_A:
+						(*buttonsHeld) |= HOLDING_A;
 						break;
 					case SDL_SCANCODE_S:
+						(*buttonsHeld) |= HOLDING_S;
 						break;
 					case SDL_SCANCODE_D:
+						(*buttonsHeld) |= HOLDING_D;
 						break;
 					case SDL_SCANCODE_LSHIFT:
+						(*buttonsHeld) |= HOLDING_LSHIFT;
 						break;
 					case SDL_SCANCODE_SPACE:
+						(*buttonsHeld) |= HOLDING_SPACE;
 						break;
 					case SDL_SCANCODE_LEFT:
 						break;
@@ -43,7 +50,7 @@ int handleEvents(bool *shouldClose, Uint32 * buttonsHeld)
 					case SDL_SCANCODE_PAGEUP:
 						break;
 					case SDL_SCANCODE_RETURN:
-						//toggleWireframe();
+						(*buttonsHeld) |= HOLDING_RETURN;
 						break;
 					default:
 						break;
@@ -53,16 +60,22 @@ int handleEvents(bool *shouldClose, Uint32 * buttonsHeld)
 				switch(event.key.keysym.scancode)
 				{
 					case SDL_SCANCODE_W:
+						(*buttonsHeld) &= ~HOLDING_W;
 						break;
 					case SDL_SCANCODE_A:
+						(*buttonsHeld) &= ~HOLDING_A;
 						break;
 					case SDL_SCANCODE_S:
+						(*buttonsHeld) &= ~HOLDING_S;
 						break;
 					case SDL_SCANCODE_D:
+						(*buttonsHeld) &= ~HOLDING_D;
 						break;
 					case SDL_SCANCODE_LSHIFT:
+						(*buttonsHeld) &= ~HOLDING_LSHIFT;
 						break;
 					case SDL_SCANCODE_SPACE:
+						(*buttonsHeld) &= ~HOLDING_SPACE;
 						break;
 					case SDL_SCANCODE_LEFT:
 						break;
@@ -75,6 +88,9 @@ int handleEvents(bool *shouldClose, Uint32 * buttonsHeld)
 					case SDL_SCANCODE_PAGEDOWN:
 						break;
 					case SDL_SCANCODE_PAGEUP:
+						break;
+					case SDL_SCANCODE_RETURN:
+						(*buttonsHeld) &= ~HOLDING_RETURN;
 						break;
 					default:
 						break;

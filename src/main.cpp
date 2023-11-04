@@ -20,7 +20,7 @@ int main(int argc, char * argv[])
 		return EXIT_FAILURE;
 	}
 
-	gameLoop(w);
+	playGame(w);
 
 	SDL_DestroyWindow(w);
 	SDL_GL_DeleteContext(glContext);
