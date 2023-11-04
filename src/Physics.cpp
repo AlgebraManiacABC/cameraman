@@ -36,11 +36,16 @@ void Physics::update(float delta) {
 };
 
 void Physics::updateVelocities(float delta) {
+	Vector2<float> gravity = this->gravity * delta;
 	for (Rect* rect : this->bodies) {
+		if (rect->getStatic()) {
+			return;
+		}
 		float frictionAir = std::pow((1 - rect->getFrictionAir()), delta);
 		Vector2<float>& velocity = rect->getVelocity();
 		Vector2<float>& lastVelocity = rect->getLastVelocity();
 		
+		velocity += gravity;
 		velocity *= frictionAir;
 		
 		Vector2<float> positionChange = (velocity + lastVelocity) * (delta / 2); // approximates trapezoid area under velocity to get total position change (trapezoidal approximation)
@@ -71,7 +76,7 @@ void Physics::solveCollision(Rect& bodyA, Rect& bodyB) {
 		normal.y = copysign(1.0, relativePosition.y);
 	}
 
-	if (Vector2<float>::dot(normal, relativeVelocity) > 0) { // Relative velocity and normal should be opposite directions
+	if (Vector2<float>::dot(normal, relativeVelocity) > 0) { // Relative velocity and collision normal should be opposite directions
 		// we don't suck!
 		return;
 	}
