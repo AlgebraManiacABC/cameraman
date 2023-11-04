@@ -1,6 +1,7 @@
 #include "main.h"
 #include "debug.h"
 #include "window.h"
+#include "game.h"
 
 #define INITIAL_WINDOW_W 800
 #define INITIAL_WINDOW_H 640
@@ -19,7 +20,7 @@ int main(int argc, char * argv[])
 		return EXIT_FAILURE;
 	}
 
-	SDL_Delay(2000);
+	gameLoop(w);
 
 	return EXIT_SUCCESS;
 	return 0;
