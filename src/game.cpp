@@ -8,6 +8,7 @@ void gameLoop(SDL_Window *w)
 	int ww, wh;
 	SDL_GetWindowSize(w,&ww,&wh);
 
+	if(!loadUniversalShaders()) return;
 	Uint32 buttonsHeld = (0b0);
 	bool shouldClose = false;
 	while(!shouldClose)

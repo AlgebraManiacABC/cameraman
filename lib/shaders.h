@@ -15,6 +15,8 @@ GLuint createShader(const char * shaderFilename, GLenum shaderType);
 
 GLuint createProgram(size_t shaderCount, ...);
 
+GLuint loadUniversalShaders(void);
+
 #ifdef __cplusplus
 }
 #endif

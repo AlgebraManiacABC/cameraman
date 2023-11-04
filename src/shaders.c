@@ -53,3 +53,18 @@ GLuint createProgram(size_t shaderCount, ...)
 	}
 	return shaderProgram;
 }
+
+GLuint loadUniversalShaders(void)
+{
+	GLuint shaderProgram = createProgram(3,
+			createShader("../src/shaders/textures.frag",GL_FRAGMENT_SHADER),
+			createShader("../src/shaders/main.frag",GL_FRAGMENT_SHADER),
+			createShader("../src/shaders/transform.vert",GL_VERTEX_SHADER));
+	if(!shaderProgram)
+	{
+		fprintf(stderr,"Couldn't create shader program: %s\n",getError());
+		return 0;
+	}
+	glUseProgram(shaderProgram);
+	return shaderProgram;
+}
