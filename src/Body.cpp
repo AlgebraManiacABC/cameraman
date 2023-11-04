@@ -11,6 +11,7 @@ Body::Body(Vector2<float> position, GLuint texture, GLuint indexBuffer) {
 	this->position = position;
 	this->texture = texture;
 	this->indexBuffer = indexBuffer;
+	this->frictionAir = 0.05;
 }
 
 Vector2<float>& Body::getPosition() {
@@ -18,6 +19,12 @@ Vector2<float>& Body::getPosition() {
 };
 Vector2<float>& Body::getVelocity() {
 	return this->velocity;
+}
+Vector2<float>& Body::getLastVelocity() {
+	return this->lastVelocity;
+}
+float& Body::getFrictionAir() {
+	return this->frictionAir;
 }
 bool Body::getStatic() {
 	return this->isStatic;
@@ -36,4 +43,5 @@ void Body::setPosition(Vector2<float>& newPosition) {
 }
 void Body::setVelocity(Vector2<float>& newVelocity) {
 	this->velocity = newVelocity;
+	this->lastVelocity = newVelocity;
 }

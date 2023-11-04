@@ -8,11 +8,13 @@
 class Physics {
 private:
 	std::vector<Rect*> bodies {};
+	Vector2<float> gravity { 0.0, 0.05 };
 
+	void updateVelocities(float delta); // delta is the amount of time passed since last frame in seconds
+	void solveCollision(Rect& bodyA, Rect& bodyB);
 public:
 	std::vector<std::pair<Rect*, Rect*>> getPairs();
-	void update(); // ! needs to be implemented
-	void solveCollision(Rect& bodyA, Rect& bodyB);
+	void update(float delta);
 };
 
 #endif

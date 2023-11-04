@@ -9,7 +9,9 @@
 class Body {
 protected:
 	Vector2<float> position; // position is in percent of height, 1 being the distance to the top of the screen from the bottom
-	Vector2<float> velocity; // in screen height / second
+	Vector2<float> velocity {}; // in screen height / second
+	Vector2<float> lastVelocity {};
+	float frictionAir { 0.05 };
 	std::vector<Vector2<float>> vertices;
 	GLuint texture;
 	GLuint indexBuffer;
@@ -21,6 +23,8 @@ public:
 
 	Vector2<float>& getPosition();
 	Vector2<float>& getVelocity();
+	Vector2<float>& getLastVelocity();
+	float& getFrictionAir();
 	bool getStatic();
 
 	void translate(Vector2<float>& translation);
