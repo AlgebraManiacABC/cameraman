@@ -1,6 +1,7 @@
 #include "Body.h"
 #include "Vector2.h"
 #include "cglm/cglm.h"
+#include "render.h"
 
 /*
 todo:
@@ -51,4 +52,17 @@ void Body::setVelocity(Vector2<float>& newVelocity) {
 void Body::updateMatrix() {
 	vec3 position = { this->position.x, this->position.y, 0.0 };
 	glm_translate(this->modelMatrix, position);
+}
+
+void Body::render() {
+	glBindVertexArray(actorVAO);
+	glBindTexture(GL_TEXTURE_2D, this->texture);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rectElementBuffer);
+	
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
+	
+	// unbind
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindVertexArray(0);
 }
