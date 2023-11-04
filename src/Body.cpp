@@ -19,6 +19,10 @@ Vector2<float>& Body::getPosition() {
 Vector2<float>& Body::getVelocity() {
 	return this->velocity;
 }
+bool Body::getStatic() {
+	return this->isStatic;
+}
+
 void Body::translate(Vector2<float>& translation) {
 	this->position += translation;
 

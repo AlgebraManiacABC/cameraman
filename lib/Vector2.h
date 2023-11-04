@@ -138,6 +138,17 @@ public:
 	static float cross(Vector2 v1, Vector2 v2) {
 		return (v1.x * v2.y) - (v1.y * v2.x);
 	}
+
+	Vector2& normal() {
+		std::swap(this->x, this->y);
+		this->y = -this->y;
+		return *this;
+	}
+	Vector2& abs() {
+		this->x = std::abs(this->x);
+		this->y = std::abs(this->y);
+		return *this;
+	}
 	
 };
 
