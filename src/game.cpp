@@ -5,6 +5,13 @@
 #include "assets.h"
 #include "render.h"
 
+GLuint (*fnPointers[])(SDL_Window*) =
+{
+	NULL,
+	mainMenu,
+	levelSelect
+};
+
 void playGame(SDL_Window *w)
 {
 	int ww, wh;
@@ -17,18 +24,19 @@ void playGame(SDL_Window *w)
 	GLuint status = STATUS_MAIN_MENU;
 	while(status != STATUS_GAME_EXIT)
 	{
-		switch(status)
-		{
-			case STATUS_MAIN_MENU:
-				status = mainMenu(w);
-				break;
-			case STATUS_LEVEL_SELECT:
-				status = levelSelect(w);
-				break;
-			case STATUS_GAME_EXIT:
-			default:
-				return;
-		}
+		status = fnPointers[status](w);
+		//switch(status)
+		//{
+		//	case STATUS_MAIN_MENU:
+		//		status = mainMenu(w);
+		//		break;
+		//	case STATUS_LEVEL_SELECT:
+		//		status = levelSelect(w);
+		//		break;
+		//	case STATUS_GAME_EXIT:
+		//	default:
+		//		return;
+		//}
 	}
 }
 

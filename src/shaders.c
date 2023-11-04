@@ -56,6 +56,7 @@ GLuint createProgram(size_t shaderCount, ...)
 
 GLuint loadUniversalShaders(void)
 {
+	//	TODO (?): glDeleteShader
 	GLuint shaderProgram = createProgram(3,
 			createShader("../src/shaders/textures.frag",GL_FRAGMENT_SHADER),
 			createShader("../src/shaders/main.frag",GL_FRAGMENT_SHADER),
