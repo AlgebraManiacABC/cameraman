@@ -1,8 +1,8 @@
 #include <vector>
 #include <math.h>
 #include <utility>
-#include "../lib/Vector2.h"
-#include "../lib/Physics.h"
+#include "Vector2.h"
+#include "Physics.h"
 
 std::vector<std::pair<Rect*, Rect*>> Physics::getPairs() {
 	int length = bodies.size();

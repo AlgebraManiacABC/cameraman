@@ -1,5 +1,5 @@
-#include "../lib/Rect.h"
-#include "../lib/Vector2.h"
+#include "Rect.h"
+#include "Vector2.h"
 
 Rect::Rect(Vector2<float> pos, float width, float height, bool isStatic, GLuint texture, GLuint buffer) 
  : Body(pos, texture, buffer) {

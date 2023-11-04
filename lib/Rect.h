@@ -1,8 +1,8 @@
 #ifndef RECT_485939
 #define RECT_485939
 
-#include "./Body.h"
-#include "./Vector2.h"
+#include "Body.h"
+#include "Vector2.h"
 
 class Rect : public Body {
 private:

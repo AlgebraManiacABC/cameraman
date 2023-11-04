@@ -1,15 +1,16 @@
-#include "../lib/game.h"
-#include "../lib/shaders.h"
-#include "../lib/debug.h"
-#include "../lib/events.h"
-#include "../lib/assets.h"
-#include "../lib/render.h"
+#include "game.h"
+#include "shaders.h"
+#include "debug.h"
+#include "events.h"
+#include "assets.h"
+#include "render.h"
 
 GLuint (*fnPointers[])(SDL_Window*) =
 {
 	NULL,
 	mainMenu,
-	levelSelect
+	levelSelect,
+	levelSprint
 };
 
 void playGame(SDL_Window *w)
@@ -53,7 +54,7 @@ GLuint mainMenu(SDL_Window *w)
 		if(buttonsHeld & HOLDING_RETURN) return STATUS_LEVEL_SELECT;
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		renderBackground(textureMainMenuBG);
+		renderBackground(textureList[TEX_ID_MAIN_MENU_BG]);
 		SDL_GL_SwapWindow(w);
 		SDL_Delay(1000/FPS);
 	}
@@ -70,10 +71,29 @@ GLuint levelSelect(SDL_Window *w)
 		(void)handleEvents(&shouldClose, &buttonsHeld);
 		if(shouldClose) return STATUS_GAME_EXIT;
 
-		if(buttonsHeld & HOLDING_RETURN) return STATUS_MAIN_MENU;
+		if(buttonsHeld & HOLDING_RETURN) return STATUS_LEVEL_SPRINT;
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		renderBackground(textureLevelSelectBG);
+		renderBackground(textureList[TEX_ID_LEVEL_SELECT_BG]);
+		SDL_GL_SwapWindow(w);
+		SDL_Delay(1000/FPS);
+	}
+	return STATUS_GAME_EXIT;
+}
+
+GLuint levelSprint(SDL_Window *w)
+{
+	Uint32 buttonsHeld = (0b0);
+	bool shouldClose = false;
+	while(!shouldClose)
+	{
+		(void)handleEvents(&shouldClose, &buttonsHeld);
+		if(shouldClose) return STATUS_GAME_EXIT;
+
+		if(buttonsHeld & HOLDING_RETURN) return STATUS_LEVEL_SELECT;
+
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		renderBackground(textureList[TEX_ID_LEVEL_SPRINT_BG]);
 		SDL_GL_SwapWindow(w);
 		SDL_Delay(1000/FPS);
 	}

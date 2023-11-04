@@ -1,5 +1,5 @@
-#include "../lib/Body.h"
-#include "../lib/Vector2.h"
+#include "Body.h"
+#include "Vector2.h"
 
 /*
 todo:

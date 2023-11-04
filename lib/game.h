@@ -12,6 +12,7 @@
 #define STATUS_GAME_EXIT    0
 #define STATUS_MAIN_MENU    1
 #define STATUS_LEVEL_SELECT 2
+#define STATUS_LEVEL_SPRINT 3
 
 //	Held button bitfield
 #define HOLDING_SPACE  (0)
@@ -35,5 +36,7 @@ void playGame(SDL_Window *w);
 GLuint mainMenu(SDL_Window *w);
 
 GLuint levelSelect(SDL_Window *w);
+
+GLuint levelSprint(SDL_Window *w);
 
 #endif
