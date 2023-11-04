@@ -7,6 +7,10 @@ extern "C"
 {
 #endif
 
+extern GLuint backgroundVertexBuffer;
+extern GLuint cameramanVertexBuffer;
+extern GLuint rectElementBuffer;
+
 void initRenderer(void);
 
 void renderBackground(GLuint texture);

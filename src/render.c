@@ -3,6 +3,7 @@
 GLuint VAO = 0;
 
 //	Z == -1 is the background Z
+GLuint backgroundVertexBuffer = 0;
 GLfloat backgroundVertices[] =
 {
 	//	Pos,   TexCoord
@@ -11,13 +12,21 @@ GLfloat backgroundVertices[] =
 	-1, -1, -1,  0, 0,	//	Bottom left
 	 1, -1, -1,  1, 0	//	Bottom right
 };
-GLuint backgroundVertexIndices[] =
+
+GLuint cameramanVertexBuffer = 0;
+GLfloat cameramanVertices[] =
+{
+	-0.5,  1, 0,  0, 1,	//	Top left
+	 0.5,  1, 0,  1, 1,	//	Top right
+	-0.5, -1, 0,  0, 0,	//	Bottom left
+	 0.5, -1, 0,  1, 0,	//	Bottom right
+};
+
+GLuint rectVertexIndices[] =
 {
 	2, 1, 0, /**/ 1, 2, 3
 };
-
-GLuint backgroundVertexBuffer = 0;
-GLuint backgroundElementBuffer = 0;
+GLuint rectElementBuffer = 0;
 
 void initRenderer(void)
 {
@@ -41,10 +50,21 @@ void initRenderer(void)
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1,2,GL_FLOAT,GL_FALSE,sizeof(GLfloat)*5,(void*)(sizeof(GLfloat)*3));
 
-	//	Background Indices
-	glGenBuffers(1,&backgroundElementBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,backgroundElementBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(backgroundVertexIndices),backgroundVertexIndices,GL_STATIC_DRAW);
+	//	Cameraman Vertex Data
+	glGenBuffers(1,&cameramanVertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER,cameramanVertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER,sizeof(cameramanVertices),cameramanVertices,GL_STATIC_DRAW);
+	//	Specify Pos:
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(GLfloat)*5,NULL);
+	//	Specify TexCoord:
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1,2,GL_FLOAT,GL_FALSE,sizeof(GLfloat)*5,(void*)(sizeof(GLfloat)*3));
+
+	//	Rectangle Indices
+	glGenBuffers(1,&rectElementBuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,rectElementBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(rectVertexIndices),rectVertexIndices,GL_STATIC_DRAW);
 
 	glBindVertexArray(0);
 }
@@ -55,7 +75,7 @@ void renderBackground(GLuint texture)
 	glBindVertexArray(VAO);
 	glBindTexture(GL_TEXTURE_2D,texture);
 	//fprintf(stderr,"Texture bound!\n");
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,backgroundElementBuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,rectElementBuffer);
 	//fprintf(stderr,"Buffer bound!\n");
 	glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,NULL);
 	//fprintf(stderr,"Elements drawn!\n");

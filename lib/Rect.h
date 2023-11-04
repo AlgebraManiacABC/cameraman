@@ -4,6 +4,7 @@
 #include "Body.h"
 #include "Vector2.h"
 
+//	`vec2` pos, `vec2` width-height, `bool` isStatic, `GLuint` tex, `GLuint` buffer
 class Rect : public Body {
 private:
 	int width;

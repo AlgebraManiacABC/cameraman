@@ -5,11 +5,12 @@ extern "C"
 {
 #endif
 
-#define NUM_TEXTURES 3
-extern GLuint textureList[NUM_TEXTURES];
+#define NUM_TEXTURES 4
 #define TEX_ID_MAIN_MENU_BG    (0)
 #define TEX_ID_LEVEL_SELECT_BG (1)
 #define TEX_ID_LEVEL_SPRINT_BG (2)
+#define TEX_ID_CAMERAMAN_R1    (3)
+extern GLuint textureList[NUM_TEXTURES];
 
 int loadAssets(void);
 

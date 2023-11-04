@@ -8,7 +8,8 @@ char * assetPaths[NUM_TEXTURES]=
 {
 	"../assets/mainMenuBG.png",
 	"../assets/levelSelectBG.png",
-	"../assets/levelSprintBG.png"
+	"../assets/levelSprintBG.png",
+	"../assets/cameraman_R1.png"
 };
 
 int loadAssets(void)

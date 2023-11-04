@@ -4,6 +4,7 @@
 #include "events.h"
 #include "assets.h"
 #include "render.h"
+#include "Rect.h"
 
 GLuint (*fnPointers[])(SDL_Window*) =
 {
@@ -83,6 +84,8 @@ GLuint levelSelect(SDL_Window *w)
 
 GLuint levelSprint(SDL_Window *w)
 {
+	Vector2<float> pos {0.0, 0.0};
+	Rect cameraman {pos, 1/8.0, 1/4.0, false, textureList[TEX_ID_CAMERAMAN_R1], cameramanVertexBuffer};
 	Uint32 buttonsHeld = (0b0);
 	bool shouldClose = false;
 	while(!shouldClose)
