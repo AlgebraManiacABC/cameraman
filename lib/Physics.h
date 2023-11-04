@@ -7,9 +7,10 @@
 
 class Physics {
 private:
-	std::vector<Body&> bodies {};
+	std::vector<Rect*> bodies {};
 
 public:
+	std::vector<std::pair<Rect*, Rect*>> getPairs();
 	void update(); // ! needs to be implemented
 	void solveCollision(Rect& bodyA, Rect& bodyB);
 };

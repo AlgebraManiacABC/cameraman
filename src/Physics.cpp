@@ -1,8 +1,36 @@
+#include <vector>
+#include <math.h>
+#include <utility>
 #include "../lib/Vector2.h"
 #include "../lib/Physics.h"
-#include <math.h>
+
+std::vector<std::pair<Rect*, Rect*>> Physics::getPairs() {
+	int length = bodies.size();
+	int numPairs = length * (length - 1) / 2;// n(n - 1) / 2
+	std::vector<std::pair<Rect*, Rect*>> pairs = {};
+	pairs.reserve(numPairs);
+
+	for (int i = 0; i < length - 1; ++i) {
+		for (int j = i + 1; j < length; ++j) {
+			if (!(bodies.at(i)->getStatic() && bodies.at(j)->getStatic())) {
+				pairs.push_back({ bodies.at(i), bodies.at(j) });
+			}
+		}
+	}
+
+	return pairs;
+}
 
 void Physics::update() {
+	std::vector<std::pair<Rect*, Rect*>> pairs = this->getPairs();
+
+	for (std::pair<Rect*, Rect*>& pair : pairs) {
+		Rect& bodyA = *pair.first;
+		Rect& bodyB = *pair.second;
+		if (bodyA.isColliding(bodyB)) {
+			this->solveCollision(bodyA, bodyB);
+		}
+	}
 };
 void Physics::solveCollision(Rect& bodyA, Rect& bodyB) {
 	bool staticA = bodyA.getStatic();
