@@ -14,12 +14,14 @@ protected:
 	GLuint texture;
 	GLuint indexBuffer;
 	mat4 modelMatrix;
+	bool isStatic { true };
 
 public:
 	Body(Vector2<float> pos, GLuint texture, GLuint buffer);
 
 	Vector2<float>& getPosition();
 	Vector2<float>& getVelocity();
+	bool getStatic();
 
 	void translate(Vector2<float>& translation);
 	void setPosition(Vector2<float>& newPosition);
