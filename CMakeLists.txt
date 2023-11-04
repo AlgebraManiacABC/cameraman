@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.20)
 project(cameraman)
 
 
-file(GLOB SOURCES src/*.c)
+file(GLOB SOURCES src/*.c src/*.cpp)
 add_executable(${PROJECT_NAME} ${SOURCES})
 include_directories(${CMAKE_SOURCE_DIR}/lib)
 link_directories(${CMAKE_SOURCE_DIR}/src)
@@ -31,5 +31,5 @@ else()
 	target_link_libraries(${PROJECT_NAME} "C:/Program Files (x86)/cglm/lib/libcglm.dll.a")
 endif()
 
-target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Werror -std=c11 -lm)
+target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Werror -lm)
 target_link_libraries(${PROJECT_NAME} m)
