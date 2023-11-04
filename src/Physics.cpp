@@ -102,6 +102,7 @@ void Physics::solveCollision(Rect& bodyA, Rect& bodyB) {
 
 void Physics::addBody(Rect* body) {
 	this->bodies.push_back(body);
+	body->setPhysics(this);
 }
 void Physics::deleteBody(Rect* body) {
 	std::remove_if(this->bodies.begin(), this->bodies.end(), [body](Rect* bodyB) {
@@ -109,6 +110,8 @@ void Physics::deleteBody(Rect* body) {
 	});
 }
 
-Rect::~Rect() { // body destructor here bc I hate circular dependencies
-	this->physics->deleteBody(this);
+Rect::~Rect() { // body destructor here bc circular dependencies
+	if (this->physics) {
+		this->physics->deleteBody(this);
+	}
 }
