@@ -21,7 +21,7 @@ std::vector<std::pair<Rect*, Rect*>> Physics::getPairs() {
 	return pairs;
 }
 
-void Physics::update() {
+void Physics::update(float delta) {
 	std::vector<std::pair<Rect*, Rect*>> pairs = this->getPairs();
 
 	for (std::pair<Rect*, Rect*>& pair : pairs) {
@@ -31,7 +31,22 @@ void Physics::update() {
 			this->solveCollision(bodyA, bodyB);
 		}
 	}
+
+	this->updateVelocities(delta);
 };
+
+void Physics::updateVelocities(float delta) {
+	for (Rect* rect : this->bodies) {
+		float frictionAir = std::pow((1 - rect->getFrictionAir()), delta);
+		Vector2<float>& velocity = rect->getVelocity();
+		Vector2<float>& lastVelocity = rect->getLastVelocity();
+		
+		velocity *= frictionAir;
+		
+		Vector2<float> positionChange = (velocity + lastVelocity) * (delta / 2); // approximates trapezoid area under velocity to get total position change (trapezoidal approximation)
+		rect->translate(positionChange);
+	}
+}
 void Physics::solveCollision(Rect& bodyA, Rect& bodyB) {
 	bool staticA = bodyA.getStatic();
 	bool staticB = bodyB.getStatic();

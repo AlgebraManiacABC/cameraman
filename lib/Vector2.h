@@ -24,6 +24,7 @@ SOFTWARE.
 #define __VEC2_H__
 
 #include <cmath>
+#include <ostream>
 
 
 template <class T>
@@ -148,6 +149,11 @@ public:
 		this->x = std::abs(this->x);
 		this->y = std::abs(this->y);
 		return *this;
+	}
+	
+	friend std::ostream& operator<< (std::ostream& out, const Vector2<T>& vector) {
+		out << "Vector2(" << vector.x << ", " << vector.y << ")\n";
+		return out;	
 	}
 	
 };

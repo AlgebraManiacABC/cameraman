@@ -14,7 +14,7 @@ public:
 
 	int getWidth();
 	int getHeight();
-	Vector2<float> getIntersection(Rect& bodyB); // returns the amount of intersection, negative if intersecting positive if not
+	Vector2<float> getIntersection(Rect& bodyB); // returns the amount of intersection, negative if intersecting / positive if not
 	bool isColliding(Rect& bodyB);
 };
 

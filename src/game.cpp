@@ -1,9 +1,9 @@
-#include "game.h"
-#include "shaders.h"
-#include "debug.h"
-#include "events.h"
-#include "assets.h"
-#include "render.h"
+#include "../lib/game.h"
+#include "../lib/shaders.h"
+#include "../lib/debug.h"
+#include "../lib/events.h"
+#include "../lib/assets.h"
+#include "../lib/render.h"
 
 void playGame(SDL_Window *w)
 {
