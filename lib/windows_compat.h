@@ -16,7 +16,9 @@ int asprintf(char ** str, const char * fmt, ...);
 int vasprintf(char ** str, const char * fmt, va_list args);
 
 #else
+	#ifndef _GNU_SOURCE
 	#define _GNU_SOURCE
+	#endif
 #endif
 
 #ifdef __cplusplus

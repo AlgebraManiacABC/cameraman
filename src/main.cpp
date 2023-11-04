@@ -12,7 +12,7 @@ int main(int argc, char * argv[])
 	SDL_GLContext glContext;
 	Uint32 err;
 	err = initWindow(SDL_INIT_EVERYTHING, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL,
-				"STL Tester", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+				"The Cameraman", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 				INITIAL_WINDOW_W, INITIAL_WINDOW_H, &w, &glContext);
 	if(err)
 	{
@@ -22,6 +22,8 @@ int main(int argc, char * argv[])
 
 	gameLoop(w);
 
+	SDL_DestroyWindow(w);
+	SDL_GL_DeleteContext(glContext);
+	SDL_Quit();
 	return EXIT_SUCCESS;
-	return 0;
 }

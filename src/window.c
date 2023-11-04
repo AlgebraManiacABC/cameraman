@@ -30,7 +30,10 @@ int initWindow(Uint32 SDL_initFlags,
 		return EXIT_FAILURE;
 	}
 
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
 	(*glContext) = SDL_GL_CreateContext(*w);
 	if(!(*glContext))
 	{
@@ -50,7 +53,7 @@ int initWindow(Uint32 SDL_initFlags,
 		return EXIT_FAILURE;
 	}
 
-	glEnable(GL_DEBUG_OUTPUT);
+	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 	glDebugMessageCallback(MessageCallback,0);
 
 	return EXIT_SUCCESS;
