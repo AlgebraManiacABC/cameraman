@@ -50,6 +50,8 @@ void Physics::updateVelocities(float delta) {
 		
 		Vector2<float> positionChange = (velocity + lastVelocity) * (delta / 2); // approximates trapezoid area under velocity to get total position change (trapezoidal approximation)
 		rect->translate(positionChange);
+
+		rect->updateMatrix();
 	}
 }
 void Physics::solveCollision(Rect& bodyA, Rect& bodyB) {
@@ -95,4 +97,27 @@ void Physics::solveCollision(Rect& bodyA, Rect& bodyB) {
 	if (forceB.x > 0 || forceB.y > 0) {
 		velocityB += forceB;
 	}
+}
+
+void Physics::addBody(Rect* body) {
+	this->bodies.push_back(body);
+}
+void Physics::deleteBody(Rect* body) {
+	// swap and pop
+	// Rect** bodyPtr;
+	// for (Rect*& b : this->bodies) {
+	// 	if (b == body) {
+	// 		bodyPtr = &b;
+	// 		break;
+	// 	}
+	// }
+	// Rect** tmp = bodyPtr;
+	// *bodyPtr = this->bodies.back();
+	// this->bodies.back() = *tmp;
+
+	// this->bodies.pop_back();
+}
+
+Rect::~Rect() { // body destructor here bc I hate circular dependencies
+	this->physics->deleteBody(this);
 }

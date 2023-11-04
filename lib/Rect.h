@@ -3,6 +3,7 @@
 
 #include "Body.h"
 #include "Vector2.h"
+#include "cglm/cglm.h"
 
 //	`vec2` pos, `vec2` width-height, `bool` isStatic, `GLuint` tex, `GLuint` buffer
 class Rect : public Body {
@@ -11,7 +12,8 @@ private:
 	int height;
 
 public:
-	Rect(Vector2<float> pos, float width, float height, bool isStatic, GLuint texture, GLuint buffer);
+	Rect(vec2 pos, float width, float height, bool isStatic, GLuint texture, GLuint buffer);
+	~Rect();
 
 	int getWidth();
 	int getHeight();

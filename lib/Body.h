@@ -1,6 +1,8 @@
 #ifndef BODY_3489520
 #define BODY_3489520
 
+class Physics;
+
 #include "cglm/cglm.h"
 #include "GL/glew.h"
 #include <vector>
@@ -11,15 +13,18 @@ protected:
 	Vector2<float> position; // position is in percent of height, 1 being the distance to the top of the screen from the bottom
 	Vector2<float> velocity {}; // in screen height / second
 	Vector2<float> lastVelocity {};
+
 	float frictionAir { 0.05 };
-	std::vector<Vector2<float>> vertices;
-	GLuint texture;
-	GLuint indexBuffer;
-	mat4 modelMatrix;
 	bool isStatic { true };
+	Physics* physics;
+	
+	GLuint texture {};
+	GLuint indexBuffer {};
+	mat4 modelMatrix {};
 
 public:
-	Body(Vector2<float> pos, GLuint texture, GLuint buffer);
+	Body(GLuint texture, GLuint buffer);
+	void setPhysics(Physics* physics); // needs to be called when created
 
 	Vector2<float>& getPosition();
 	Vector2<float>& getVelocity();

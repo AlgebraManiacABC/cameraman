@@ -1,19 +1,13 @@
 #include "Rect.h"
 #include "Vector2.h"
+#include "cglm/cglm.h"
 
-Rect::Rect(Vector2<float> pos, float width, float height, bool isStatic, GLuint texture, GLuint buffer) 
- : Body(pos, texture, buffer) {
-	this->position = pos;
+Rect::Rect(vec2 pos, float width, float height, bool isStatic, GLuint texture, GLuint buffer) 
+ : Body(texture, buffer) {
+	this->position = Vector2(pos[0], pos[1]);
 	this->width  = width;
 	this->height = height;
 	this->isStatic = isStatic;
-
-	this->vertices = {
-		{ -width/2, -height/2 },
-		{ -width/2,  height/2 },
-		{  width/2,  height/2 },
-		{  width/2, -height/2 },
-	};
 }
 int Rect::getWidth() {
 	return this->width;

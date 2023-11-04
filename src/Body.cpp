@@ -1,5 +1,6 @@
 #include "Body.h"
 #include "Vector2.h"
+#include "cglm/cglm.h"
 
 /*
 todo:
@@ -7,11 +8,16 @@ todo:
 	- debug so it actually works
 */
 
-Body::Body(Vector2<float> position, GLuint texture, GLuint indexBuffer) {
-	this->position = position;
+Body::Body(GLuint texture, GLuint indexBuffer) {
 	this->texture = texture;
 	this->indexBuffer = indexBuffer;
 	this->frictionAir = 0.05;
+
+	// *(this->modelMatrix) = GLM_MAT4_IDENTITY_INIT;
+	// this->updateMatrix();
+}
+void Body::setPhysics(Physics* physics) {
+	this->physics = physics;
 }
 
 Vector2<float>& Body::getPosition() {
@@ -32,10 +38,6 @@ bool Body::getStatic() {
 
 void Body::translate(Vector2<float>& translation) {
 	this->position += translation;
-
-	for (Vector2<float>& vertice : this->vertices) {
-		vertice += translation;
-	}
 }
 void Body::setPosition(Vector2<float>& newPosition) {
 	Vector2<float> translation { newPosition - this->position };
@@ -44,4 +46,9 @@ void Body::setPosition(Vector2<float>& newPosition) {
 void Body::setVelocity(Vector2<float>& newVelocity) {
 	this->velocity = newVelocity;
 	this->lastVelocity = newVelocity;
+}
+
+void Body::updateMatrix() {
+	vec3 position = { this->position.x, this->position.y, 0.0 };
+	glm_translate(this->modelMatrix, position);
 }

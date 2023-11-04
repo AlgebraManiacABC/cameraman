@@ -4,6 +4,7 @@
 #include <vector>
 #include "Body.h"
 #include "Rect.h"
+#include "Vector2.h"
 
 class Physics {
 private:
@@ -15,6 +16,8 @@ private:
 public:
 	std::vector<std::pair<Rect*, Rect*>> getPairs();
 	void update(float delta);
+	void addBody(Rect* body);
+	void deleteBody(Rect* body);
 };
 
 #endif

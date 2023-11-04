@@ -84,7 +84,7 @@ GLuint levelSelect(SDL_Window *w)
 
 GLuint levelSprint(SDL_Window *w)
 {
-	Vector2<float> pos {0.0, 0.0};
+	vec2 pos = { 0.0, 0.0 };
 	Rect cameraman {pos, 1/8.0, 1/4.0, false, textureList[TEX_ID_CAMERAMAN_R1], cameramanVertexBuffer};
 	Uint32 buttonsHeld = (0b0);
 	bool shouldClose = false;
