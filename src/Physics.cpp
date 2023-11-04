@@ -104,18 +104,18 @@ void Physics::addBody(Rect* body) {
 }
 void Physics::deleteBody(Rect* body) {
 	// swap and pop
-	// Rect** bodyPtr;
-	// for (Rect*& b : this->bodies) {
-	// 	if (b == body) {
-	// 		bodyPtr = &b;
-	// 		break;
-	// 	}
-	// }
-	// Rect** tmp = bodyPtr;
-	// *bodyPtr = this->bodies.back();
-	// this->bodies.back() = *tmp;
+	Rect** bodyPtr;
+	for (Rect*& b : this->bodies) {
+		if (b == body) {
+			bodyPtr = &b;
+			break;
+		}
+	}
+	Rect** tmp = bodyPtr;
+	*bodyPtr = this->bodies.back();
+	this->bodies.back() = *tmp;
 
-	// this->bodies.pop_back();
+	this->bodies.pop_back();
 }
 
 Rect::~Rect() { // body destructor here bc I hate circular dependencies
