@@ -9,6 +9,7 @@
 #include "main.h"
 #include "button.h"
 #include "Player.h"
+#include <cmath>
 
 bool paused = false;
 
@@ -124,6 +125,8 @@ GLuint levelSprint()
 	button *quitButton = createButton(ww/2.0,wh/1.5,ww/5,ww/25,textureList[TEX_ID_BUTTON_QUIT_MAIN]);
 	Uint32 buttonsHeld = (0b0);
 	bool shouldClose = false;
+	Vector2<int> mouse {};
+
 	while(!shouldClose)
 	{
 		const float deltaTime = 1000 / FPS;
@@ -144,6 +147,14 @@ GLuint levelSprint()
 			}
 		}
 
+		if(buttonsHeld & HOLDING_RETURN) return STATUS_LEVEL_SELECT;
+
+		SDL_GetGlobalMouseState(&mouse.x, &mouse.y);
+		// Vector2<float> mousePlayerDistance = mouse - 
+		// float angle = std::atan2(mouse.y - );
+		
+
+		player.update(buttonsHeld);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		renderBackground(textureList[TEX_ID_LEVEL_SPRINT_BG]);
 		if(!paused)
