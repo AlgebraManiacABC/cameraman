@@ -1,4 +1,6 @@
 #include "render.h"
+#include "shaders.h"
+#include <cglm/cglm.h>
 
 GLuint backgroundVAO = 0;
 GLuint actorVAO = 0;
@@ -86,6 +88,7 @@ void initRenderer(void)
 void renderBackground(GLuint texture)
 {
 	if(!texture) return;
+	glUniformMatrix4fv(transformLoc,1,GL_FALSE,(float*)GLM_MAT4_IDENTITY);
 	glBindVertexArray(backgroundVAO);
 	glBindTexture(GL_TEXTURE_2D,texture);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,rectElementBuffer);

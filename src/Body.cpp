@@ -2,6 +2,7 @@
 #include "Vector2.h"
 #include "cglm/cglm.h"
 #include "render.h"
+#include "shaders.h"
 
 /*
 todo:
@@ -59,6 +60,8 @@ void Body::render() {
 	glBindTexture(GL_TEXTURE_2D, this->texture);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rectElementBuffer);
 	
+	mat4 modelMatrix = GLM_MAT4_IDENTITY_INIT;
+	glUniformMatrix4fv(transformLoc,1,GL_FALSE,(float*)modelMatrix);//this->modelMatrix);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
 	
 	// unbind
