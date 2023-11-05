@@ -18,12 +18,12 @@ GLfloat backgroundVertices[] =
 };
 
 GLuint cameramanVertexBuffer = 0;
-GLfloat cameramanVertices[] =
+GLfloat rectVertices[] =
 {
-	-0.5,  1, 0.5,  0, 1,	//	Top left
-	 0.5,  1, 0.5,  1, 1,	//	Top right
-	-0.5, -1, 0.5,  0, 0,	//	Bottom left
-	 0.5, -1, 0.5,  1, 0,	//	Bottom right
+	-1.0,  1, 0.5,  0, 1,	//	Top left
+	 1.0,  1, 0.5,  1, 1,	//	Top right
+	-1.0, -1, 0.5,  0, 0,	//	Bottom left
+	 1.0, -1, 0.5,  1, 0,	//	Bottom right
 };
 
 GLuint squareVertexBuffer = 0;
@@ -83,7 +83,7 @@ void initRenderer(void)
 	//	Cameraman Vertex Data
 	glGenBuffers(1,&cameramanVertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER,cameramanVertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER,sizeof(cameramanVertices),cameramanVertices,GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER,sizeof(rectVertices),rectVertices,GL_STATIC_DRAW);
 	//	Specify Pos:
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(GLfloat)*5,NULL);

@@ -34,8 +34,13 @@ void Physics::update(float delta) {
 	}
 
 	this->updateVelocities(delta);
+	this->render();
 };
-
+void Physics::render() {
+	for (Body* body : this->bodies) {
+		body->render();
+	}
+}
 void Physics::updateVelocities(float delta) {
 	Vector2<float> gravity = this->gravity * delta;
 	for (Rect* rect : this->bodies) {

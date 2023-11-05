@@ -14,6 +14,9 @@ protected:
 	Vector2<float> velocity {}; // in screen height / second
 	Vector2<float> lastVelocity {};
 
+	float width;
+	float height;
+
 	float frictionAir { 0.05 };
 	bool isStatic { true };
 	Physics* physics;
@@ -23,7 +26,7 @@ protected:
 	mat4 modelMatrix {};
 
 public:
-	Body(GLuint texture, GLuint buffer);
+	Body(GLuint texture);
 	void setPhysics(Physics* physics); // needs to be called when created
 
 	Vector2<float>& getPosition();
@@ -35,7 +38,6 @@ public:
 	void translate(Vector2<float>& translation);
 	void setPosition(Vector2<float>& newPosition);
 	void setVelocity(Vector2<float>& newVelocity);
-	void updateMatrix();
 
 	void render();
 };
