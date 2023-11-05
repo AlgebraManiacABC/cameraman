@@ -8,6 +8,7 @@ extern "C"
 #endif
 
 extern GLuint actorVAO;
+extern GLuint squareVAO;
 extern GLuint backgroundVertexBuffer;
 extern GLuint cameramanVertexBuffer;
 extern GLuint rectElementBuffer;

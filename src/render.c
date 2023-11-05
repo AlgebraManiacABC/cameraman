@@ -4,6 +4,7 @@
 
 GLuint backgroundVAO = 0;
 GLuint actorVAO = 0;
+GLuint squareVAO = 0;
 
 //	Z == -1 is the background Z
 GLuint backgroundVertexBuffer = 0;
@@ -23,6 +24,15 @@ GLfloat cameramanVertices[] =
 	 0.5,  1, 0.5,  1, 1,	//	Top right
 	-0.5, -1, 0.5,  0, 0,	//	Bottom left
 	 0.5, -1, 0.5,  1, 0,	//	Bottom right
+};
+
+GLuint squareVertexBuffer = 0;
+GLfloat squareVertices[] =
+{
+	-0.5,  0.5, 0.25,  0, 1,
+	 0.5,  0.5, 0.25,  1, 1,
+	-0.5, -0.5, 0.25,  0, 0,
+	 0.5, -0.5, 0.25,  1, 0
 };
 
 GLuint rectVertexIndices[] =
@@ -66,6 +76,7 @@ void initRenderer(void)
 	glBindVertexArray(0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
 
+	//	Actor VAO (Cameraman)
 	glGenVertexArrays(1,&actorVAO);
 	glBindVertexArray(actorVAO);
 
@@ -73,6 +84,27 @@ void initRenderer(void)
 	glGenBuffers(1,&cameramanVertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER,cameramanVertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER,sizeof(cameramanVertices),cameramanVertices,GL_STATIC_DRAW);
+	//	Specify Pos:
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(GLfloat)*5,NULL);
+	//	Specify TexCoord:
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1,2,GL_FLOAT,GL_FALSE,sizeof(GLfloat)*5,(void*)(sizeof(GLfloat)*3));
+	//	Done!
+	glBindBuffer(GL_ARRAY_BUFFER,0);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,rectElementBuffer);
+
+	glBindVertexArray(0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
+
+	glGenVertexArrays(1,&squareVAO);
+	glBindVertexArray(squareVAO);
+
+	//	Square Vertex Data
+	glGenBuffers(1,&squareVertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER,squareVertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER,sizeof(squareVertices),squareVertices,GL_STATIC_DRAW);
 	//	Specify Pos:
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(GLfloat)*5,NULL);
