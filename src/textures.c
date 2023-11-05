@@ -12,7 +12,7 @@ GLuint textureFromFile(const char * filename)
 		setError(ERR_MESG,"Error retrieving data from \"%s\"!\n",filename);
 		return 0;
 	}
-	//fprintf(stderr,"numChannels: %d\n",numChannels);
+	fprintf(stderr,"numChannels of %s: %d\n",filename,numChannels);
 	GLushort bitDepth;
 	switch(numChannels)
 	{
@@ -34,10 +34,9 @@ GLuint textureFromFile(const char * filename)
 	glGenTextures(1,&texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
-	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, (vec4){1.0f,0.0f,0.0f,1.0f});
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, bitDepth, GL_UNSIGNED_BYTE, data);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, bitDepth, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	stbi_image_free(data);

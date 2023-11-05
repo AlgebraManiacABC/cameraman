@@ -15,8 +15,9 @@ Body::Body(GLuint texture, GLuint indexBuffer) {
 	this->indexBuffer = indexBuffer;
 	this->frictionAir = 0.05;
 
-	// *(this->modelMatrix) = GLM_MAT4_IDENTITY_INIT;
-	// this->updateMatrix();
+	mat4 iMatrix = GLM_MAT4_IDENTITY_INIT;
+	glm_mat4_copy(iMatrix,this->modelMatrix);
+	this->updateMatrix();
 }
 void Body::setPhysics(Physics* physics) {
 	this->physics = physics;
@@ -60,8 +61,7 @@ void Body::render() {
 	glBindTexture(GL_TEXTURE_2D, this->texture);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rectElementBuffer);
 	
-	mat4 modelMatrix = GLM_MAT4_IDENTITY_INIT;
-	glUniformMatrix4fv(transformLoc,1,GL_FALSE,(float*)modelMatrix);//this->modelMatrix);
+	glUniformMatrix4fv(transformLoc,1,GL_FALSE,(float*)this->modelMatrix);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
 	
 	// unbind

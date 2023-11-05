@@ -10,19 +10,19 @@ GLuint backgroundVertexBuffer = 0;
 GLfloat backgroundVertices[] =
 {
 	//	Pos,   TexCoord
-	-1,  1, -1,  0, 1,	//	Top left
-	 1,  1, -1,  1, 1,	//	Top right
-	-1, -1, -1,  0, 0,	//	Bottom left
-	 1, -1, -1,  1, 0	//	Bottom right
+	-1,  1, 0.75,  0, 1,	//	Top left
+	 1,  1, 0.75,  1, 1,	//	Top right
+	-1, -1, 0.75,  0, 0,	//	Bottom left
+	 1, -1, 0.75,  1, 0	//	Bottom right
 };
 
 GLuint cameramanVertexBuffer = 0;
 GLfloat cameramanVertices[] =
 {
-	-0.5,  1, 0,  0, 1,	//	Top left
-	 0.5,  1, 0,  1, 1,	//	Top right
-	-0.5, -1, 0,  0, 0,	//	Bottom left
-	 0.5, -1, 0,  1, 0,	//	Bottom right
+	-0.5,  1, 0.5,  0, 1,	//	Top left
+	 0.5,  1, 0.5,  1, 1,	//	Top right
+	-0.5, -1, 0.5,  0, 0,	//	Bottom left
+	 0.5, -1, 0.5,  1, 0,	//	Bottom right
 };
 
 GLuint rectVertexIndices[] =
@@ -37,6 +37,9 @@ void initRenderer(void)
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glClearColor(1.0f,1.0f,0.0f,1.0f);
 
 	//	Global VAO
 	glGenVertexArrays(1,&backgroundVAO);
@@ -88,7 +91,9 @@ void initRenderer(void)
 void renderBackground(GLuint texture)
 {
 	if(!texture) return;
-	glUniformMatrix4fv(transformLoc,1,GL_FALSE,(float*)GLM_MAT4_IDENTITY);
+	mat4 mvMatrix = GLM_MAT4_IDENTITY_INIT;
+	//glm_look((vec3){0,0,1},(vec3){0,0,-1},(vec3){0,1,0},mvMatrix);
+	glUniformMatrix4fv(transformLoc,1,GL_FALSE,(float*)mvMatrix);
 	glBindVertexArray(backgroundVAO);
 	glBindTexture(GL_TEXTURE_2D,texture);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,rectElementBuffer);
