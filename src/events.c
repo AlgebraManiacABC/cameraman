@@ -3,10 +3,12 @@
 #include "main.h"
 
 bool windowResizedThisFrame = false;
+bool firstFramePressedEscape = false;
 
 int handleEvents(bool *shouldClose, Uint32 * buttonsHeld)
 {
 	windowResizedThisFrame = false;
+	firstFramePressedEscape = false;
 	SDL_Event event;
 	Uint32 eventCount = 0;
 	while(SDL_PollEvent(&event))
@@ -29,7 +31,8 @@ int handleEvents(bool *shouldClose, Uint32 * buttonsHeld)
 				switch(event.key.keysym.scancode)
 				{
 					case SDL_SCANCODE_ESCAPE:
-						(*shouldClose) = true;
+						(*buttonsHeld) |= HOLDING_ESCAPE;
+						firstFramePressedEscape = true;
 						return eventCount;
 					case SDL_SCANCODE_W:
 						(*buttonsHeld) |= HOLDING_W;
@@ -52,6 +55,7 @@ int handleEvents(bool *shouldClose, Uint32 * buttonsHeld)
 					case SDL_SCANCODE_LEFT:
 						break;
 					case SDL_SCANCODE_RIGHT:
+						(*buttonsHeld) |= HOLDING_RIGHT;
 						break;
 					case SDL_SCANCODE_UP:
 						break;
@@ -71,6 +75,9 @@ int handleEvents(bool *shouldClose, Uint32 * buttonsHeld)
 			case SDL_KEYUP:
 				switch(event.key.keysym.scancode)
 				{
+					case SDL_SCANCODE_ESCAPE:
+						(*buttonsHeld) &= ~HOLDING_ESCAPE;
+						break;
 					case SDL_SCANCODE_W:
 						(*buttonsHeld) &= ~HOLDING_W;
 						break;
@@ -92,6 +99,7 @@ int handleEvents(bool *shouldClose, Uint32 * buttonsHeld)
 					case SDL_SCANCODE_LEFT:
 						break;
 					case SDL_SCANCODE_RIGHT:
+						(*buttonsHeld) &= ~HOLDING_RIGHT;
 						break;
 					case SDL_SCANCODE_UP:
 						break;

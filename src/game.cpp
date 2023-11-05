@@ -56,7 +56,7 @@ GLuint mainMenu()
 	while(!shouldClose)
 	{
 		(void)handleEvents(&shouldClose, &buttonsHeld);
-		if(shouldClose) return STATUS_GAME_EXIT;
+		if(shouldClose || buttonsHeld & HOLDING_ESCAPE) return STATUS_GAME_EXIT;
 
 		if(updateButton(playButton) == BUTTON_ACTIVATED) return STATUS_LEVEL_SELECT;
 		if(updateButton(quitButton) == BUTTON_ACTIVATED) return STATUS_GAME_EXIT;
@@ -86,7 +86,7 @@ GLuint levelSelect()
 	while(!shouldClose)
 	{
 		(void)handleEvents(&shouldClose, &buttonsHeld);
-		if(shouldClose) return STATUS_GAME_EXIT;
+		if(shouldClose || buttonsHeld & HOLDING_ESCAPE) return STATUS_GAME_EXIT;
 
 		for(int i=0; i<LEVEL_COUNT; i++)
 		{
@@ -171,6 +171,7 @@ GLuint levelSprint()
 
 	
 	button *resumeButton = createButton(ww/2.0,wh/2.0,ww/4,ww/20,textureList[TEX_ID_BUTTON_RESUME]);
+	button *levelsButton = createButton(ww/2.0,wh/1.7,ww/5,ww/25,textureList[TEX_ID_BUTTON_LEVELS]);
 	button *quitButton = createButton(ww/2.0,wh/1.5,ww/5,ww/25,textureList[TEX_ID_BUTTON_QUIT_MAIN]);
 	vec3 pauseLayer = {0.0, 0.0, 0.22};
 	Rect pauseMenu { pauseLayer, 3, (float)((3.0*wh)/ww), true, false, textureList[TEX_ID_PAUSE_MENU_BG] };
@@ -189,46 +190,46 @@ GLuint levelSprint()
 		if(windowResizedThisFrame)
 		{
 			recreateButton(resumeButton,ww/2.0,wh/2.0,ww/4,ww/20);
+			recreateButton(resumeButton,ww/2.0,wh/1.7,ww/5,ww/25);
 			recreateButton(quitButton,ww/2.0,wh/1.5,ww/5,ww/25);
 		}
+		if(buttonsHeld & HOLDING_RIGHT) return STATUS_LEVEL_SKIING;
 
-		if(buttonsHeld & HOLDING_RETURN)
+		if(buttonsHeld & HOLDING_ESCAPE && firstFramePressedEscape)
 		{
 			if(paused)
 			{
 				paused = false;
-				SDL_Delay(100);
 			}
 			else
 			{
 				paused = true;
-				SDL_Delay(100);
 			}
-		}
-
-		// move target
-		if (time > 600) {
-			Vector2<float> lastPosition { target.getPosition() };
-			Vector2<float> newPosition { lastPosition.x + 0.9f * deltaTime / 1000, lastPosition.y };
-			target.setPosition(newPosition);
-		}
-		
-		// move camera
-		physics.camera.x = player.body.getPosition().x;
-		if (std::abs(target.getPosition().x - player.body.getPosition().x) < 0.9) {
-			physics.camera.x = (target.getPosition().x + player.body.getPosition().x) / 2;
-		}
-
-
-		loopBG(backgroundA, backgroundB, backgroundC, player.body.getPosition().x);
-		player.update(buttonsHeld, score);
-		if (score <= 0 || player.body.getPosition().x >= maxDistance) {
-			return STATUS_LEVEL_SELECT;
 		}
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		if(!paused)
 		{
+			// move target
+			if (time > 600) {
+				Vector2<float> lastPosition { target.getPosition() };
+				Vector2<float> newPosition { lastPosition.x + 0.9f * deltaTime / 1000, lastPosition.y };
+				target.setPosition(newPosition);
+			}
+			
+			// move camera
+			physics.camera.x = player.body.getPosition().x;
+			if (std::abs(target.getPosition().x - player.body.getPosition().x) < 0.9) {
+				physics.camera.x = (target.getPosition().x + player.body.getPosition().x) / 2;
+			}
+
+
+			loopBG(backgroundA, backgroundB, backgroundC, player.body.getPosition().x);
+			player.update(buttonsHeld, score);
+			if (score <= 0 || player.body.getPosition().x >= maxDistance) {
+				return STATUS_LEVEL_SELECT;
+			}
+
 			physics.update(deltaTime / 1000);
 		}
 		else
@@ -236,6 +237,7 @@ GLuint levelSprint()
 			physics.render();
 			pauseMenu.render();
 			renderButton(resumeButton);
+			renderButton(levelsButton);
 			renderButton(quitButton);
 
 			if(updateButton(resumeButton) == BUTTON_ACTIVATED)
@@ -243,8 +245,22 @@ GLuint levelSprint()
 				paused = false;
 				deactivateButton(resumeButton);
 			}
+			else if(updateButton(levelsButton) == BUTTON_ACTIVATED)
+			{
+				paused = false;
+				deactivateButton(levelsButton);
+				deleteButton(resumeButton);
+				deleteButton(levelsButton);
+				deleteButton(quitButton);
+				return STATUS_LEVEL_SELECT;
+			}
 			else if(updateButton(quitButton) == BUTTON_ACTIVATED)
+			{
+				deleteButton(resumeButton);
+				deleteButton(levelsButton);
+				deleteButton(quitButton);
 				return STATUS_GAME_EXIT;
+			}
 		}
 
 		SDL_GL_SwapWindow(w);

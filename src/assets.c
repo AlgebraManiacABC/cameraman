@@ -16,6 +16,7 @@ char * assetPaths[NUM_TEXTURES]=
 	"../assets/play.png",
 	"../assets/quitMain.png",
 	"../assets/resume.png",
+	"../assets/levels.png",
 	"../assets/floor.png",
 	"../assets/vault.png",
 	"../assets/player/Body1.png",

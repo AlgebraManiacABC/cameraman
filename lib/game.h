@@ -34,13 +34,17 @@ extern GLuint STATUS_LEVEL_PICK[LEVEL_COUNT];
 #define LEVEL_ID_BLACK_HOLE (6)
 
 //	Held button bitfield
-#define HOLDING_SPACE  (0)
-#define HOLDING_W      (1)
-#define HOLDING_A      (1 << 1)
-#define HOLDING_S      (1 << 2)
-#define HOLDING_D      (1 << 3)
-#define HOLDING_LSHIFT (1 << 4)
-#define HOLDING_RETURN (1 << 5)
+#define HOLDING_ESCAPE  (1)
+#define HOLDING_SPACE   (1 << 1)
+#define HOLDING_W       (1 << 2)
+#define HOLDING_A       (1 << 3)
+#define HOLDING_S       (1 << 4)
+#define HOLDING_D       (1 << 5)
+#define HOLDING_LSHIFT  (1 << 6)
+#define HOLDING_RETURN  (1 << 7)
+#define HOLDING_RIGHT   (1 << 8)
+
+extern bool firstFramePressedEscape;
 
 /**
  * Initializes all important game assets, then opens the main menu
