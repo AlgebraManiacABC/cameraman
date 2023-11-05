@@ -124,10 +124,21 @@ void renderBackground(GLuint texture)
 {
 	if(!texture) return;
 	mat4 mvMatrix = GLM_MAT4_IDENTITY_INIT;
-	//glm_look((vec3){0,0,1},(vec3){0,0,-1},(vec3){0,1,0},mvMatrix);
 	glUniformMatrix4fv(transformLoc,1,GL_FALSE,(float*)mvMatrix);
 	glBindVertexArray(backgroundVAO);
 	glBindTexture(GL_TEXTURE_2D,texture);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,rectElementBuffer);
+	glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,NULL);
+	glBindVertexArray(0);
+}
+
+void renderButton(button *b)
+{
+	mat4 modelMatrix;
+	getButtonMatrix(b,modelMatrix);
+	glUniformMatrix4fv(transformLoc,1,GL_FALSE,(float*)modelMatrix);
+	glBindVertexArray(squareVAO);
+	glBindTexture(GL_TEXTURE_2D,getButtonTexture(b));
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,rectElementBuffer);
 	glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,NULL);
 	glBindVertexArray(0);

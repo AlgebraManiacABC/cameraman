@@ -1,6 +1,7 @@
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
+#include "button.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -16,6 +17,8 @@ extern GLuint rectElementBuffer;
 void initRenderer(void);
 
 void renderBackground(GLuint texture);
+
+void renderButton(button *b);
 
 #ifdef __cplusplus
 }
