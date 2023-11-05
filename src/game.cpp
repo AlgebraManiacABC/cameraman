@@ -8,6 +8,7 @@
 #include "Rect.h"
 #include "main.h"
 #include "button.h"
+#include "Player.h"
 
 GLuint STATUS_LEVEL_PICK[LEVEL_COUNT]
 {
@@ -103,13 +104,14 @@ GLuint levelSprint()
 {
 	Physics physics {};
 	physics.gravity.y = -10.0;
-	vec2 cameramanPosition = { 0.125, 0.5 };
-	Rect cameraman {cameramanPosition, 0.125, 0.25, false, textureList[TEX_ID_CAMERAMAN_R1]};
-	physics.addBody(&cameraman);
 	
-	vec2 floorPosition = { -0.15, -0.3 };
-	Rect floor {floorPosition, 0.5, 0.25, true, textureList[TEX_ID_FLOOR]};
-	physics.addBody(&floor);
+	vec2 startingPosition { 0.0, 0.0 };
+	Player player { startingPosition };
+	physics.addBody(&player.body);
+	
+	vec2 floorAPosition = { -0.15, -0.3 };
+	Rect floorA {floorAPosition, 0.5, 0.25, true, textureList[TEX_ID_FLOOR]};
+	physics.addBody(&floorA);
 
 	vec2 floorBPosition = { 0.0, -0.5 };
 	Rect floorB {floorBPosition, 2.0, 0.2, true, textureList[TEX_ID_FLOOR]};
@@ -126,16 +128,11 @@ GLuint levelSprint()
 
 		if(buttonsHeld & HOLDING_RETURN) return STATUS_LEVEL_SELECT;
 
+		player.update(buttonsHeld);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		renderBackground(textureList[TEX_ID_LEVEL_SPRINT_BG]);
-
-
-		Vector2<float> intersection = cameraman.getIntersection(floor);
-		char buffer[512] = {0};
-		sprintf(buffer, "%0.2f, %0.2f", intersection.x, intersection.y);
-		SDL_SetWindowTitle(w, buffer);
-
 		physics.update(deltaTime / 1000);
+
 		SDL_GL_SwapWindow(w);
 		SDL_Delay(deltaTime);
 	}

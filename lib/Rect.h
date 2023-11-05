@@ -18,6 +18,7 @@ public:
 	float getWidth();
 	float getHeight();
 	Vector2<float> getIntersection(Rect& bodyB); // returns the amount of intersection, negative if intersecting / positive if not
+	Vector2<float> getSignedIntersection(Rect& bodyB); // returns the amount of intersection, negative if intersecting / positive if not
 	bool isColliding(Rect& bodyB);
 	void updateMatrix();
 	virtual void translate(Vector2<float>& translation);

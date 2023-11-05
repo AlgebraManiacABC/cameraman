@@ -54,6 +54,13 @@ Vector2<float> Rect::getIntersection(Rect& bodyB) {
 
 	return distance;
 }
+Vector2<float> Rect::getSignedIntersection(Rect& bodyB) {
+	Vector2<float> intersection = this->getIntersection(bodyB);
+	Vector2<float> relativePosition = bodyB.getPosition() - this->getPosition();
+	float signX = copysign(1.0, relativePosition.x);
+	float signY = copysign(1.0, relativePosition.y);
+	return { intersection.x * signX, intersection.y * signY };
+}
 bool Rect::isColliding(Rect& bodyB) {
 	Vector2<float> intersection = this->getIntersection(bodyB);
 	return intersection.x <= 0 && intersection.y <= 0;

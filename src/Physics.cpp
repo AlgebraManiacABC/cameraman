@@ -97,12 +97,9 @@ void Physics::solveCollision(Rect& bodyA, Rect& bodyB) {
 	float shareA = (staticA || staticB) ? (staticB ? 1.0 : 0.0) : 0.5;
 	float shareB = 1.0 - shareA;
 
-	Vector2<float> slop = { 0.01, 0.01 };
-	Vector2<float> intersectionFixed = intersection - slop;
-	intersectionFixed.x = std::max(0.0f, intersectionFixed.x);
-	intersectionFixed.y = std::max(0.0f, intersectionFixed.y);
-	Vector2<float> shiftA = normal * (-1 * shareA * Vector2<float>::dot(normal, intersection));
-	Vector2<float> shiftB = normal * (-1 * shareB * Vector2<float>::dot(normal, intersection));
+	Vector2<float> signedIntersection = bodyA.getSignedIntersection(bodyB);
+	Vector2<float> shiftA = normal * (1 * shareA * Vector2<float>::dot(normal, signedIntersection));
+	Vector2<float> shiftB = normal * (1 * shareB * Vector2<float>::dot(normal, signedIntersection));
 	bodyA.translate(shiftA);
 	bodyB.translate(shiftB);
 
