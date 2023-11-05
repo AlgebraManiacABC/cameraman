@@ -6,6 +6,9 @@
 #define INITIAL_WINDOW_W 800
 #define INITIAL_WINDOW_H 640
 
+int ww = INITIAL_WINDOW_W;
+int wh = INITIAL_WINDOW_H;
+
 SDL_Window *w = NULL;
 
 int main(int argc, char * argv[])

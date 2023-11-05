@@ -9,6 +9,8 @@ extern "C"
 {
 #endif
 
+extern bool windowResizedThisFrame;
+
 /**
  * Polls all incoming events through SDL
  * 

@@ -12,7 +12,7 @@ GLuint textureFromFile(const char * filename)
 		setError(ERR_MESG,"Error retrieving data from \"%s\"!\n",filename);
 		return 0;
 	}
-	fprintf(stderr,"numChannels of %s: %d\n",filename,numChannels);
+	//fprintf(stderr,"numChannels of %s: %d\n",filename,numChannels);
 	GLushort bitDepth;
 	switch(numChannels)
 	{

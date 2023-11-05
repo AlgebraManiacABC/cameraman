@@ -19,9 +19,6 @@ GLuint (*fnPointers[])() =
 
 void playGame()
 {
-	int ww, wh;
-	SDL_GetWindowSize(w,&ww,&wh);
-
 	initRenderer();
 	if(!loadUniversalShaders()) return;
 	if(loadAssets()) return;
@@ -35,8 +32,6 @@ void playGame()
 
 GLuint mainMenu()
 {
-	int ww,wh;
-	SDL_GetWindowSize(w,&ww,&wh);
 	button *b = createButton(ww/2,wh/2,50,10,textureList[TEX_ID_BUTTON_PLAY]);
 	Uint32 buttonsHeld = (0b0);
 	bool shouldClose = false;

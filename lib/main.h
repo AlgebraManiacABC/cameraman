@@ -5,3 +5,4 @@
 #endif
 
 extern SDL_Window *w;
+extern int ww, wh;

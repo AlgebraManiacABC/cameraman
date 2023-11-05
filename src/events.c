@@ -1,8 +1,12 @@
 #include "events.h"
 #include "game.h"
+#include "main.h"
+
+bool windowResizedThisFrame = false;
 
 int handleEvents(bool *shouldClose, Uint32 * buttonsHeld)
 {
+	windowResizedThisFrame = false;
 	SDL_Event event;
 	Uint32 eventCount = 0;
 	while(SDL_PollEvent(&event))
@@ -13,6 +17,14 @@ int handleEvents(bool *shouldClose, Uint32 * buttonsHeld)
 			case SDL_QUIT:
 				(*shouldClose) = true;
 				return eventCount;
+			case SDL_WINDOWEVENT:
+				if(event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+				{
+					ww = event.window.data1;
+					wh = event.window.data2;
+					glViewport(0,0,ww,wh);
+					windowResizedThisFrame = true;
+				}
 			case SDL_KEYDOWN:
 				switch(event.key.keysym.scancode)
 				{
