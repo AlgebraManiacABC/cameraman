@@ -8,17 +8,18 @@
 //	`vec2` pos, `vec2` width-height, `bool` isStatic, `GLuint` tex, `GLuint` buffer
 class Rect : public Body {
 private:
-	int width;
-	int height;
+	float width;
+	float height;
 
 public:
-	Rect(vec2 pos, float width, float height, bool isStatic, GLuint texture, GLuint buffer);
+	Rect(vec2 pos, float width, float height, bool isStatic, GLuint texture);
 	~Rect();
 
 	int getWidth();
 	int getHeight();
 	Vector2<float> getIntersection(Rect& bodyB); // returns the amount of intersection, negative if intersecting / positive if not
 	bool isColliding(Rect& bodyB);
+	void updateMatrix();
 };
 
 #endif

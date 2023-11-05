@@ -76,14 +76,15 @@ GLuint levelSelect()
 GLuint levelSprint()
 {
 	Physics physics {};
-	vec2 pos = { 0.0, 0.0 };
-	Rect cameraman {pos, 1/8.0, 1/4.0, false, textureList[TEX_ID_CAMERAMAN_R1], cameramanVertexBuffer};
+	vec2 pos = { 0.0, 0.4 };
+	Rect cameraman {pos, 1/8.0, 1/4.0, false, textureList[TEX_ID_CAMERAMAN_R1]};
 	physics.addBody(&cameraman);
 	
 	Uint32 buttonsHeld = (0b0);
 	bool shouldClose = false;
 	while(!shouldClose)
 	{
+		const float deltaTime = 1000 / FPS;
 		(void)handleEvents(&shouldClose, &buttonsHeld);
 		if(shouldClose) return STATUS_GAME_EXIT;
 
@@ -91,9 +92,9 @@ GLuint levelSprint()
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		renderBackground(textureList[TEX_ID_LEVEL_SPRINT_BG]);
-		cameraman.render();
+		physics.update(deltaTime / 1000);
 		SDL_GL_SwapWindow(w);
-		SDL_Delay(1000/FPS);
+		SDL_Delay(deltaTime);
 	}
 	return STATUS_GAME_EXIT;
 }

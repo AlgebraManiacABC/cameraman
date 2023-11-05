@@ -10,14 +10,13 @@ todo:
 	- debug so it actually works
 */
 
-Body::Body(GLuint texture, GLuint indexBuffer) {
+Body::Body(GLuint texture) {
 	this->texture = texture;
-	this->indexBuffer = indexBuffer;
+	this->indexBuffer = cameramanVertexBuffer;
 	this->frictionAir = 0.05;
 
 	mat4 iMatrix = GLM_MAT4_IDENTITY_INIT;
 	glm_mat4_copy(iMatrix,this->modelMatrix);
-	this->updateMatrix();
 }
 void Body::setPhysics(Physics* physics) {
 	this->physics = physics;
@@ -49,11 +48,6 @@ void Body::setPosition(Vector2<float>& newPosition) {
 void Body::setVelocity(Vector2<float>& newVelocity) {
 	this->velocity = newVelocity;
 	this->lastVelocity = newVelocity;
-}
-
-void Body::updateMatrix() {
-	vec3 position = { this->position.x, this->position.y, 0.0 };
-	glm_translate(this->modelMatrix, position);
 }
 
 void Body::render() {

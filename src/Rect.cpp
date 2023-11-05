@@ -1,9 +1,12 @@
 #include "Rect.h"
 #include "Vector2.h"
 #include "cglm/cglm.h"
+#include <SDL2/SDL.h>
+#include "main.h"
+#include <SDL2/SDL_opengl.h>
 
-Rect::Rect(vec2 pos, float width, float height, bool isStatic, GLuint texture, GLuint buffer) 
- : Body(texture, buffer) {
+Rect::Rect(vec2 pos, float width, float height, bool isStatic, GLuint texture) 
+ : Body(texture) {
 	this->position = Vector2(pos[0], pos[1]);
 	this->width  = width;
 	this->height = height;
@@ -20,6 +23,22 @@ int Rect::getWidth() {
 int Rect::getHeight() {
 	return this->height;
 }
+
+void Rect::updateMatrix() {
+	mat4 transformation = GLM_MAT4_IDENTITY_INIT;
+	vec3 position = { this->position.x, this->position.y, 0.0 };
+	glm_translate(transformation, position);
+
+	int screenWidth, screenHeight;
+	SDL_GetWindowSize(w, &screenWidth, &screenHeight);
+	float aspectRatio = static_cast<float>(screenHeight) / screenWidth;
+	Vector2<float> scale = { aspectRatio * static_cast<float>(this->width), static_cast<float>(this->height) };
+	vec3 transformScale = { scale.x, scale.y, 1.0 };
+	glm_scale(transformation, transformScale);
+
+	glm_mat4_copy(transformation, this->modelMatrix);
+}
+
 Vector2<float> Rect::getIntersection(Rect& bodyB) {
 	Vector2<float>& positionA = this->getPosition();
 	int widthA = this->getWidth();
