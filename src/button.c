@@ -62,8 +62,10 @@ bool mouseOverButton(button *butt, int mouseX, int mouseY)
 	return false;
 }
 
-buttonState updateButton(button *butt, int mouseX, int mouseY, Uint32 mouseState)
+buttonState updateButton(button *butt)
 {
+	int mouseX, mouseY;
+	Uint32 mouseState = SDL_GetMouseState(&mouseX, &mouseY);
 	switch(butt->state)
 	{
 		case BUTTON_INACTIVE:
@@ -103,8 +105,11 @@ void deactivateButton(button *butt)
 void getButtonMatrix(button *b, mat4 matrix)
 {
 	glm_mat4_copy(GLM_MAT4_IDENTITY,matrix);
-	glm_translate(matrix,(vec3){b->x,b->y,0});
-	glm_scale(matrix,(vec3){b->w,b->h,1});
+	vec3 translate = {0};
+	translate[0] = (2*b->x / (float)ww) - 1;
+	translate[1] = (-2*b->y / (float)wh) + 1;
+	glm_translate(matrix,translate);
+	glm_scale(matrix,(vec3){(2*b->w/(float)ww),(2*b->h/(float)wh),1});
 }
 
 GLuint getButtonTexture(button *b)

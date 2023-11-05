@@ -58,7 +58,7 @@ int getButtonH(button *b);
 
 bool mouseOverButton(button *b, int mouseX, int mouseY);
 
-buttonState updateButton(button *b, int mouseX, int mouseY, Uint32 mouseState);
+buttonState updateButton(button *b);
 void deactivateButton(button *b);
 
 void getButtonMatrix(button *b, mat4 matrix);

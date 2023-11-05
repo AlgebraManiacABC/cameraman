@@ -23,7 +23,7 @@ GLfloat cameramanVertices[] =
 	-0.5,  1, 0.5,  0, 1,	//	Top left
 	 0.5,  1, 0.5,  1, 1,	//	Top right
 	-0.5, -1, 0.5,  0, 0,	//	Bottom left
-	 0.5, -1, 0.5,  1, 0,	//	Bottom right
+	 0.5, -1, 0.5,  1, 0	//	Bottom right
 };
 
 GLuint squareVertexBuffer = 0;

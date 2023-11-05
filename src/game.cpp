@@ -32,7 +32,8 @@ void playGame()
 
 GLuint mainMenu()
 {
-	button *b = createButton(ww/2,wh/2,50,10,textureList[TEX_ID_BUTTON_PLAY]);
+	button *playButton = createButton(ww/2,wh/2,ww/3,ww/15,textureList[TEX_ID_BUTTON_PLAY]);
+	button *quitButton = createButton(ww/2,wh/(1.5),ww/4,ww/20,textureList[TEX_ID_BUTTON_QUIT_MAIN]);
 	Uint32 buttonsHeld = (0b0);
 	bool shouldClose = false;
 	while(!shouldClose)
@@ -40,11 +41,13 @@ GLuint mainMenu()
 		(void)handleEvents(&shouldClose, &buttonsHeld);
 		if(shouldClose) return STATUS_GAME_EXIT;
 
-		if(buttonsHeld & HOLDING_RETURN) return STATUS_LEVEL_SELECT;
+		if(updateButton(playButton) == BUTTON_ACTIVATED) return STATUS_LEVEL_SELECT;
+		if(updateButton(quitButton) == BUTTON_ACTIVATED) return STATUS_GAME_EXIT;
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		renderBackground(textureList[TEX_ID_MAIN_MENU_BG]);
-		renderButton(b);
+		renderButton(playButton);
+		renderButton(quitButton);
 		SDL_GL_SwapWindow(w);
 		SDL_Delay(1000/FPS);
 	}
