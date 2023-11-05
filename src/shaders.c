@@ -1,6 +1,8 @@
 #include "shaders.h"
 #include "debug.h"
 
+GLuint transformLoc = 0;
+
 GLuint createShader(const char * shaderFilename, GLenum shaderType)
 {
 	const char * shaderSource = NULL;
@@ -67,5 +69,7 @@ GLuint loadUniversalShaders(void)
 		return 0;
 	}
 	glUseProgram(shaderProgram);
+
+	transformLoc = glGetUniformLocation(shaderProgram,"transform");
 	return shaderProgram;
 }

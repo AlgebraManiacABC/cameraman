@@ -4,6 +4,7 @@
 #include "events.h"
 #include "assets.h"
 #include "render.h"
+#include "Physics.h"
 #include "Rect.h"
 
 GLuint (*fnPointers[])(SDL_Window*) =
@@ -84,8 +85,11 @@ GLuint levelSelect(SDL_Window *w)
 
 GLuint levelSprint(SDL_Window *w)
 {
+	Physics physics {};
 	vec2 pos = { 0.0, 0.0 };
 	Rect cameraman {pos, 1/8.0, 1/4.0, false, textureList[TEX_ID_CAMERAMAN_R1], cameramanVertexBuffer};
+	physics.addBody(&cameraman);
+	
 	Uint32 buttonsHeld = (0b0);
 	bool shouldClose = false;
 	while(!shouldClose)
@@ -97,6 +101,7 @@ GLuint levelSprint(SDL_Window *w)
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		renderBackground(textureList[TEX_ID_LEVEL_SPRINT_BG]);
+		cameraman.render();
 		SDL_GL_SwapWindow(w);
 		SDL_Delay(1000/FPS);
 	}

@@ -8,6 +8,12 @@ Rect::Rect(vec2 pos, float width, float height, bool isStatic, GLuint texture, G
 	this->width  = width;
 	this->height = height;
 	this->isStatic = isStatic;
+	mat4 iMatrix = GLM_MAT4_IDENTITY_INIT;
+	vec3 scale = {height,height,1};
+	fprintf(stderr,"scale: { %.2f, %.2f %.2f }\n",scale[0],scale[1],scale[2]);
+	glm_scale(iMatrix,scale);
+	glm_mat4_copy(iMatrix,this->modelMatrix);
+	this->updateMatrix();
 }
 int Rect::getWidth() {
 	return this->width;

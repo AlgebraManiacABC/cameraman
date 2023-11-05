@@ -11,6 +11,8 @@ extern "C"
 #include <GL/glew.h>
 #include <stdarg.h>
 
+extern GLuint transformLoc;
+
 GLuint createShader(const char * shaderFilename, GLenum shaderType);
 
 GLuint createProgram(size_t shaderCount, ...);

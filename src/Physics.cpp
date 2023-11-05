@@ -3,6 +3,7 @@
 #include <utility>
 #include "Vector2.h"
 #include "Physics.h"
+#include <algorithm>
 
 std::vector<std::pair<Rect*, Rect*>> Physics::getPairs() {
 	int length = bodies.size();
@@ -101,23 +102,16 @@ void Physics::solveCollision(Rect& bodyA, Rect& bodyB) {
 
 void Physics::addBody(Rect* body) {
 	this->bodies.push_back(body);
+	body->setPhysics(this);
 }
 void Physics::deleteBody(Rect* body) {
-	// swap and pop
-	Rect** bodyPtr;
-	for (Rect*& b : this->bodies) {
-		if (b == body) {
-			bodyPtr = &b;
-			break;
-		}
-	}
-	Rect** tmp = bodyPtr;
-	*bodyPtr = this->bodies.back();
-	this->bodies.back() = *tmp;
-
-	this->bodies.pop_back();
+	std::remove_if(this->bodies.begin(), this->bodies.end(), [body](Rect* bodyB) {
+		return bodyB == body;
+	});
 }
 
-Rect::~Rect() { // body destructor here bc I hate circular dependencies
-	this->physics->deleteBody(this);
+Rect::~Rect() { // body destructor here bc circular dependencies
+	if (this->physics) {
+		this->physics->deleteBody(this);
+	}
 }

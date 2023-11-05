@@ -35,7 +35,9 @@ public:
 	void translate(Vector2<float>& translation);
 	void setPosition(Vector2<float>& newPosition);
 	void setVelocity(Vector2<float>& newVelocity);
-	void updateMatrix(); // ! needs to be implemented
+	void updateMatrix();
+
+	void render();
 };
 
 
