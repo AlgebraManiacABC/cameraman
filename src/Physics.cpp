@@ -47,6 +47,7 @@ void Physics::update(float delta) {
 };
 void Physics::render() {
 	for (Rect* body : this->bodies) {
+		body->updateMatrix();
 		body->render();
 	}
 }

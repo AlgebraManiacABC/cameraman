@@ -34,6 +34,8 @@ public:
 			this->onCollision->callback(collision);
 		}
 	}
+
+	Vector2<float> distanceToScreen(Vector2<int> screenPoint);
 };
 
 #endif

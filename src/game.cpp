@@ -122,13 +122,18 @@ GLuint levelSprint()
 	physics.addBody(&floorB);
 
 	
+	vec3 targetPosition = { 0.5, 0.3, 0.5 };
+	Rect target {targetPosition, 0.125, 0.25, true, true, textureList[TEX_ID_CAMERAMAN_R1]};
+	physics.addBody(&target);
+	player.target = &target;
+
+	
 	button *resumeButton = createButton(ww/2.0,wh/2.0,ww/4,ww/20,textureList[TEX_ID_BUTTON_RESUME]);
 	button *quitButton = createButton(ww/2.0,wh/1.5,ww/5,ww/25,textureList[TEX_ID_BUTTON_QUIT_MAIN]);
 	vec3 pauseLayer = {0.0, 0.0, 0.22};
 	Rect pauseMenu { pauseLayer, 3, (float)((3.0*wh)/ww), true, false, textureList[TEX_ID_PAUSE_MENU_BG] };
 	Uint32 buttonsHeld = (0b0);
 	bool shouldClose = false;
-	Vector2<int> mouse {};
 
 	while(!shouldClose)
 	{
@@ -154,11 +159,6 @@ GLuint levelSprint()
 				SDL_Delay(100);
 			}
 		}
-
-		SDL_GetGlobalMouseState(&mouse.x, &mouse.y);
-		// Vector2<float> mousePlayerDistance = mouse - 
-		// float angle = std::atan2(mouse.y - );
-		
 
 		player.update(buttonsHeld);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

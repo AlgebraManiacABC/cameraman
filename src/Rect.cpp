@@ -69,5 +69,10 @@ bool Rect::isColliding(Rect& bodyB) {
 }
 void Rect::translate(Vector2<float>& translation) {
 	this->position += translation;
-	this->updateMatrix();
+}
+
+Vector2<float> Rect::distanceToScreen(Vector2<int> screenPoint) {
+	float aspectRatio = static_cast<float>(wh) / ww;
+	Vector2<float> dist { screenPoint.x / static_cast<float>(ww) - 0.95f - this->position.x * aspectRatio * 0.5f, screenPoint.y / static_cast<float>(wh) * -1.0f + 0.75f - this->position.y * 0.5f };
+	return dist;
 }
