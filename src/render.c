@@ -17,13 +17,13 @@ GLfloat backgroundVertices[] =
 	 1, -1, 0.75,  1, 0	//	Bottom right
 };
 
-GLuint cameramanVertexBuffer = 0;
-GLfloat cameramanVertices[] =
+GLuint bodyVertexBuffer = 0;
+GLfloat bodyVertices[] =
 {
-	-0.5,  1, 0.5,  0, 1,	//	Top left
-	 0.5,  1, 0.5,  1, 1,	//	Top right
-	-0.5, -1, 0.5,  0, 0,	//	Bottom left
-	 0.5, -1, 0.5,  1, 0	//	Bottom right
+	-0.5,  0.5, 0.2,  0, 1,	//	Top left
+	 0.5,  0.5, 0.2,  1, 1,	//	Top right
+	-0.5, -0.5, 0.2,  0, 0,	//	Bottom left
+	 0.5, -0.5, 0.2,  1, 0	//	Bottom right
 };
 
 GLuint squareVertexBuffer = 0;
@@ -81,9 +81,9 @@ void initRenderer(void)
 	glBindVertexArray(actorVAO);
 
 	//	Cameraman Vertex Data
-	glGenBuffers(1,&cameramanVertexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER,cameramanVertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER,sizeof(cameramanVertices),cameramanVertices,GL_STATIC_DRAW);
+	glGenBuffers(1,&bodyVertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER,bodyVertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER,sizeof(bodyVertices),bodyVertices,GL_STATIC_DRAW);
 	//	Specify Pos:
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(GLfloat)*5,NULL);

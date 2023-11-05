@@ -35,7 +35,7 @@ public:
 	float& getFrictionAir();
 	bool getStatic();
 
-	void translate(Vector2<float>& translation);
+	virtual void translate(Vector2<float>& translation);
 	void setPosition(Vector2<float>& newPosition);
 	void setVelocity(Vector2<float>& newVelocity);
 

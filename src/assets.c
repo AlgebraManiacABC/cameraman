@@ -13,7 +13,8 @@ char * assetPaths[NUM_TEXTURES]=
 	"../assets/cameraman_R1.png",
 	"../assets/camera.png",
 	"../assets/play.png",
-	"../assets/quitMain.png"
+	"../assets/quitMain.png",
+	"../assets/floor.png"
 };
 
 GLuint TEX_ID_LEVEL_THUMBS[LEVEL_COUNT] =

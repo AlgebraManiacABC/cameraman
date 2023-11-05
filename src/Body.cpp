@@ -4,15 +4,9 @@
 #include "render.h"
 #include "shaders.h"
 
-/*
-todo:
-	- change to work correctly with vec class
-	- debug so it actually works
-*/
-
 Body::Body(GLuint texture) {
 	this->texture = texture;
-	this->indexBuffer = cameramanVertexBuffer;
+	this->indexBuffer = bodyVertexBuffer;
 	this->frictionAir = 0.05;
 
 	mat4 iMatrix = GLM_MAT4_IDENTITY_INIT;
