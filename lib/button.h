@@ -1,13 +1,18 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
+#include "main.h"
+
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-#include "render.h"
 #include <stdbool.h>
+#include <cglm/cglm.h>
+#include <GL/glew.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
 
 #define BUTTON_INACTIVE 0
 #define BUTTON_HELD 1

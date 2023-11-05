@@ -1,3 +1,6 @@
+#ifndef RENDER_H
+#define RENDER_H
+
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
@@ -22,4 +25,6 @@ void renderButton(button *b);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

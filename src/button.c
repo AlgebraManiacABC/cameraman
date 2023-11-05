@@ -1,5 +1,4 @@
 #include "button.h"
-#include <cglm/cglm.h>
 
 struct button
 {
@@ -18,6 +17,7 @@ button *createButton(int x, int y, int w, int h, GLuint texture)
 	butt->h = h;
 	butt->state = BUTTON_INACTIVE;
 	butt->texture = texture;
+	return butt;
 }
 
 void deleteButton(button *b)
@@ -32,22 +32,22 @@ buttonState getButtonState(button *butt)
 
 int getButtonX(button *butt)
 {
-	butt->x;
+	return butt->x;
 }
 
 int getButtonY(button *butt)
 {
-	butt->y;
+	return butt->y;
 }
 
 int getButtonW(button *butt)
 {
-	butt->w;
+	return butt->w;
 }
 
 int getButtonH(button *butt)
 {
-	butt->h;
+	return butt->h;
 }
 
 bool mouseOverButton(button *butt, int mouseX, int mouseY)

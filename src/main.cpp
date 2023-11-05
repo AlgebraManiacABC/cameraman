@@ -6,9 +6,10 @@
 #define INITIAL_WINDOW_W 800
 #define INITIAL_WINDOW_H 640
 
+SDL_Window *w = NULL;
+
 int main(int argc, char * argv[])
 {
-	SDL_Window *w = NULL;
 	SDL_GLContext glContext;
 	Uint32 err;
 	err = initWindow(SDL_INIT_EVERYTHING, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL,

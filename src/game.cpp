@@ -7,6 +7,7 @@
 #include "Physics.h"
 #include "Rect.h"
 #include "main.h"
+#include "button.h"
 
 GLuint (*fnPointers[])() =
 {
@@ -29,24 +30,14 @@ void playGame()
 	while(status != STATUS_GAME_EXIT)
 	{
 		status = fnPointers[status]();
-		//switch(status)
-		//{
-		//	case STATUS_MAIN_MENU:
-		//		status = mainMenu(w);
-		//		break;
-		//	case STATUS_LEVEL_SELECT:
-		//		status = levelSelect(w);
-		//		break;
-		//	case STATUS_GAME_EXIT:
-		//	default:
-		//		return;
-		//}
 	}
 }
 
 GLuint mainMenu()
 {
-	//fprintf(stderr,"Main Menu\n");
+	int ww,wh;
+	SDL_GetWindowSize(w,&ww,&wh);
+	button *b = createButton(ww/2,wh/2,50,10,textureList[TEX_ID_BUTTON_PLAY]);
 	Uint32 buttonsHeld = (0b0);
 	bool shouldClose = false;
 	while(!shouldClose)
@@ -58,6 +49,7 @@ GLuint mainMenu()
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		renderBackground(textureList[TEX_ID_MAIN_MENU_BG]);
+		renderButton(b);
 		SDL_GL_SwapWindow(w);
 		SDL_Delay(1000/FPS);
 	}
@@ -66,7 +58,6 @@ GLuint mainMenu()
 
 GLuint levelSelect()
 {
-	//fprintf(stderr,"Level Select\n");
 	Uint32 buttonsHeld = (0b0);
 	bool shouldClose = false;
 	while(!shouldClose)
