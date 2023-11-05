@@ -1,8 +1,8 @@
 #include "Rect.h"
 #include "Vector2.h"
 #include "cglm/cglm.h"
-#include <SDL2/SDL.h>
 #include "main.h"
+#include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 
 Rect::Rect(vec2 pos, float width, float height, bool isStatic, GLuint texture) 
@@ -17,10 +17,10 @@ Rect::Rect(vec2 pos, float width, float height, bool isStatic, GLuint texture)
 	glm_mat4_copy(iMatrix,this->modelMatrix);
 	this->updateMatrix();
 }
-int Rect::getWidth() {
+float Rect::getWidth() {
 	return this->width;
 }
-int Rect::getHeight() {
+float Rect::getHeight() {
 	return this->height;
 }
 
@@ -29,9 +29,7 @@ void Rect::updateMatrix() {
 	vec3 position = { this->position.x, this->position.y, 0.0 };
 	glm_translate(transformation, position);
 
-	int screenWidth, screenHeight;
-	SDL_GetWindowSize(w, &screenWidth, &screenHeight);
-	float aspectRatio = static_cast<float>(screenHeight) / screenWidth;
+	float aspectRatio = static_cast<float>(wh) / ww;
 	Vector2<float> scale = { aspectRatio * static_cast<float>(this->width), static_cast<float>(this->height) };
 	vec3 transformScale = { scale.x, scale.y, 1.0 };
 	glm_scale(transformation, transformScale);
@@ -41,12 +39,12 @@ void Rect::updateMatrix() {
 
 Vector2<float> Rect::getIntersection(Rect& bodyB) {
 	Vector2<float>& positionA = this->getPosition();
-	int widthA = this->getWidth();
-	int heightA = this->getHeight();
+	float widthA = this->getWidth();
+	float heightA = this->getHeight();
 
 	Vector2<float>& positionB = bodyB.getPosition();
-	int widthB = bodyB.getWidth();
-	int heightB = bodyB.getHeight();
+	float widthB = bodyB.getWidth();
+	float heightB = bodyB.getHeight();
 
 	Vector2<float> distance = positionA - positionB;
 	distance.abs();
@@ -56,6 +54,10 @@ Vector2<float> Rect::getIntersection(Rect& bodyB) {
 	return distance;
 }
 bool Rect::isColliding(Rect& bodyB) {
-	Vector2<float> distance = this->getIntersection(bodyB);
-	return distance.x <= 0 || distance.y <= 0;
+	Vector2<float> intersection = this->getIntersection(bodyB);
+	return intersection.x <= 0 && intersection.y <= 0;
+}
+void Rect::translate(Vector2<float>& translation) {
+	this->position += translation;
+	this->updateMatrix();
 }

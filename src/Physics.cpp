@@ -3,7 +3,11 @@
 #include <utility>
 #include "Vector2.h"
 #include "Physics.h"
+#include "Rect.h"
 #include <algorithm>
+#include "main.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
 
 std::vector<std::pair<Rect*, Rect*>> Physics::getPairs() {
 	int length = bodies.size();
@@ -26,6 +30,10 @@ void Physics::update(float delta) {
 	std::vector<std::pair<Rect*, Rect*>> pairs = this->getPairs();
 
 	for (std::pair<Rect*, Rect*>& pair : pairs) {
+		if (pair.first == pair.second) {
+			continue;
+		}
+		
 		Rect& bodyA = *pair.first;
 		Rect& bodyB = *pair.second;
 		if (bodyA.isColliding(bodyB)) {
@@ -37,7 +45,7 @@ void Physics::update(float delta) {
 	this->render();
 };
 void Physics::render() {
-	for (Body* body : this->bodies) {
+	for (Rect* body : this->bodies) {
 		body->render();
 	}
 }
@@ -56,8 +64,6 @@ void Physics::updateVelocities(float delta) {
 		
 		Vector2<float> positionChange = (velocity + lastVelocity) * (delta / 2); // approximates trapezoid area under velocity to get total position change (trapezoidal approximation)
 		rect->translate(positionChange);
-
-		rect->updateMatrix();
 	}
 }
 void Physics::solveCollision(Rect& bodyA, Rect& bodyB) {
@@ -85,22 +91,26 @@ void Physics::solveCollision(Rect& bodyA, Rect& bodyB) {
 	}
 
 	if (Vector2<float>::dot(normal, relativeVelocity) > 0) { // Relative velocity and collision normal should be opposite directions
-		// we don't suck!
 		return;
 	}
 
 	float shareA = (staticA || staticB) ? (staticB ? 1.0 : 0.0) : 0.5;
 	float shareB = 1.0 - shareA;
 
-	positionA -= shareA * Vector2<float>::dot(normal, intersection);
-	positionB += shareB * Vector2<float>::dot(normal, intersection);
+	Vector2<float> slop = { 0.01, 0.01 };
+	Vector2<float> intersectionFixed = intersection - slop;
+	intersectionFixed.x = std::max(0.0f, intersectionFixed.x);
+	intersectionFixed.y = std::max(0.0f, intersectionFixed.y);
+	Vector2<float> shiftA = normal * (-1 * shareA * Vector2<float>::dot(normal, intersection));
+	Vector2<float> shiftB = normal * (-1 * shareB * Vector2<float>::dot(normal, intersection));
+	bodyA.translate(shiftA);
+	bodyB.translate(shiftB);
 
-	Vector2<float> forceA = normal * Vector2<float>::dot(normal, velocityA);
-	Vector2<float> forceB = normal * Vector2<float>::dot(normal, velocityB);
-	if (forceA.x > 0 || forceA.y > 0) {
+	float force = Vector2<float>::dot(normal, relativeVelocity);
+	if (force != 0) {
+		Vector2<float> forceA = normal * ( force * shareA);
+		Vector2<float> forceB = normal * (-force * shareB);
 		velocityA += forceA;
-	}
-	if (forceB.x > 0 || forceB.y > 0) {
 		velocityB += forceB;
 	}
 }

@@ -15,11 +15,12 @@ public:
 	Rect(vec2 pos, float width, float height, bool isStatic, GLuint texture);
 	~Rect();
 
-	int getWidth();
-	int getHeight();
+	float getWidth();
+	float getHeight();
 	Vector2<float> getIntersection(Rect& bodyB); // returns the amount of intersection, negative if intersecting / positive if not
 	bool isColliding(Rect& bodyB);
 	void updateMatrix();
+	virtual void translate(Vector2<float>& translation);
 };
 
 #endif

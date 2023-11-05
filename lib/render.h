@@ -14,7 +14,8 @@ extern "C"
 extern GLuint actorVAO;
 extern GLuint squareVAO;
 extern GLuint backgroundVertexBuffer;
-extern GLuint cameramanVertexBuffer;
+extern GLuint bodyVertexBuffer;
+extern GLuint squareVertexBuffer;
 extern GLuint rectElementBuffer;
 
 void initRenderer(void);
