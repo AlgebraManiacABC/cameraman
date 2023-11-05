@@ -10,6 +10,8 @@
 #include "button.h"
 #include "Player.h"
 
+bool paused = false;
+
 GLuint STATUS_LEVEL_PICK[LEVEL_COUNT]
 {
 	STATUS_LEVEL_SPRINT,
@@ -118,6 +120,8 @@ GLuint levelSprint()
 	physics.addBody(&floorB);
 
 	
+	button *resumeButton = createButton(ww/2.0,wh/2.0,ww/4,ww/20,textureList[TEX_ID_BUTTON_RESUME]);
+	button *quitButton = createButton(ww/2.0,wh/1.5,ww/5,ww/25,textureList[TEX_ID_BUTTON_QUIT_MAIN]);
 	Uint32 buttonsHeld = (0b0);
 	bool shouldClose = false;
 	while(!shouldClose)
@@ -126,12 +130,41 @@ GLuint levelSprint()
 		(void)handleEvents(&shouldClose, &buttonsHeld);
 		if(shouldClose) return STATUS_GAME_EXIT;
 
-		if(buttonsHeld & HOLDING_RETURN) return STATUS_LEVEL_SELECT;
+		if(buttonsHeld & HOLDING_RETURN)
+		{
+			if(paused)
+			{
+				paused = false;
+				SDL_Delay(100);
+			}
+			else
+			{
+				paused = true;
+				SDL_Delay(100);
+			}
+		}
 
-		player.update(buttonsHeld);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		renderBackground(textureList[TEX_ID_LEVEL_SPRINT_BG]);
-		physics.update(deltaTime / 1000);
+		if(!paused)
+		{
+			player.update(buttonsHeld);
+			physics.update(deltaTime / 1000);
+		}
+		else
+		{
+			physics.render();
+			renderBackground(textureList[TEX_ID_PAUSE_MENU_BG]);
+			renderButton(resumeButton);
+			renderButton(quitButton);
+
+			if(updateButton(resumeButton) == BUTTON_ACTIVATED)
+			{
+				paused = false;
+				deactivateButton(resumeButton);
+			}
+			else if(updateButton(quitButton) == BUTTON_ACTIVATED) return STATUS_GAME_EXIT;
+		}
 
 		SDL_GL_SwapWindow(w);
 		SDL_Delay(deltaTime);

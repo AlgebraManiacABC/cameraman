@@ -10,10 +10,12 @@ char * assetPaths[NUM_TEXTURES]=
 	"../assets/levelSelectBG.png",
 	"../assets/levelSprintBG.png",
 	"../assets/levelSprintThumb.png",
+	"../assets/pause.png",
 	"../assets/cameraman_R1.png",
 	"../assets/camera.png",
 	"../assets/play.png",
 	"../assets/quitMain.png",
+	"../assets/resume.png",
 	"../assets/floor.png"
 };
 
