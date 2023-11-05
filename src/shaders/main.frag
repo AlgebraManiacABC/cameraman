@@ -6,5 +6,8 @@ vec4 getTexture();
 void main()
 {
 	vec4 texColor = getTexture();
+	if (texColor.a == 0) {
+		discard;
+	}
 	FragColor = texColor;
 }

@@ -47,7 +47,7 @@ void Physics::update(float delta) {
 };
 void Physics::render() {
 	for (Rect* body : this->bodies) {
-		body->updateMatrix();
+		body->updateMatrix(this);
 		body->render();
 	}
 }
@@ -136,4 +136,26 @@ Rect::~Rect() { // body destructor here bc circular dependencies
 	if (this->physics) {
 		this->physics->deleteBody(this);
 	}
+}
+
+void Rect::updateMatrix(Physics* physics) {
+	float aspectRatio = static_cast<float>(wh) / ww;
+	mat4 transformation = GLM_MAT4_IDENTITY_INIT;
+	if (!physics) return;
+	Vector2<float> camera = physics->getCamera();
+
+	vec3 position = { (this->position.x - camera.x) * aspectRatio, this->position.y - camera.y, this->depth };
+	glm_translate(transformation, position);
+
+	Vector2<float> scale = { aspectRatio * static_cast<float>(this->width), static_cast<float>(this->height) };
+	vec3 transformScale = { scale.x, scale.y, 1.0 };
+	glm_scale(transformation, transformScale);
+
+	glm_mat4_copy(transformation, this->modelMatrix);
+}
+Vector2<float> Rect::distanceToScreen(Vector2<int> screenPoint) {
+	Vector2<float>& camera = this->physics->camera;
+	float aspectRatio = static_cast<float>(wh) / ww;
+	Vector2<float> dist { screenPoint.x / static_cast<float>(ww) - 0.95f - (this->position.x - camera.x) * aspectRatio * 0.5f, screenPoint.y / static_cast<float>(wh) * -1.0f + 0.75f - (this->position.y - camera.y) * 0.5f };
+	return dist;
 }

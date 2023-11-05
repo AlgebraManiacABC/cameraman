@@ -19,6 +19,11 @@ public:
 	void addBody(Rect* body);
 	void deleteBody(Rect* body);
 	void render();
+	Vector2<float> camera { 0.0, 0.0 };
+
+	Vector2<float>& getCamera() {
+		return this->camera;
+	}
 };
 
 #endif

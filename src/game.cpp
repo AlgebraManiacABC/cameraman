@@ -104,29 +104,45 @@ GLuint levelSelect()
 	return STATUS_GAME_EXIT;
 }
 
+void loopBG(Rect& backgroundA, Rect& backgroundB, Rect& backgroundC, float playerX) {
+	float width = backgroundA.getWidth();
+	float relativePosition = static_cast<int>(playerX / width + 0.5);
+
+	Vector2<float> bgAPos { static_cast<float>(relativePosition) * width, 0.0 };
+	backgroundA.setPosition(bgAPos);
+	Vector2<float> bgBPos { bgAPos.x + width, bgAPos.y };
+	backgroundB.setPosition(bgBPos);
+	Vector2<float> bgCPos { bgAPos.x - width, bgAPos.y };
+	backgroundC.setPosition(bgCPos);
+}
+
+
 GLuint levelSprint()
 {
 	Physics physics {};
 	physics.gravity.y = -10.0;
 	
-	vec3 startingPosition { 0.0, 0.0, 0.5 };
+	vec3 startingPosition { 0.0, 0.0, 0.4 };
 	Player player { startingPosition };
 	physics.addBody(&player.body);
 	
-	vec3 floorAPosition = { -0.15, -0.3, 0.5 };
-	Rect floorA {floorAPosition, 0.5, 0.25, true, true, textureList[TEX_ID_FLOOR]};
+	vec3 floorAPosition = { 2.5, -0.6, 0.4 };
+	Rect floorA {floorAPosition, 8.0, 0.25, true, true, textureList[TEX_ID_FLOOR]};
 	physics.addBody(&floorA);
 
-	vec3 floorBPosition = { 0.0, -0.5, 0.5 };
-	Rect floorB {floorBPosition, 2.0, 0.2, true, true, textureList[TEX_ID_FLOOR]};
-	physics.addBody(&floorB);
-
 	
-	vec3 targetPosition = { 0.5, 0.3, 0.5 };
-	Rect target {targetPosition, 0.125, 0.25, true, true, textureList[TEX_ID_CAMERAMAN_R1]};
+	vec3 targetPosition = { 0.5, 0.3, 0.4 };
+	Rect target {targetPosition, 0.2, 0.4, true, false, textureList[TEX_ID_CAMERAMAN_R1]};
 	physics.addBody(&target);
 	player.target = &target;
 
+	vec3 backgroundAPosition = { 0.0, 0.0, 0.5 };
+	Rect backgroundA {backgroundAPosition, 1000.0f / 750.0f * 2.0f, 2.0, true, false, textureList[TEX_ID_LEVEL_SPRINT_BG]};
+	physics.addBody(&backgroundA);
+	Rect backgroundB {backgroundAPosition, 1000.0f / 750.0f * 2.0f, 2.0, true, false, textureList[TEX_ID_LEVEL_SPRINT_BG]};
+	physics.addBody(&backgroundB);
+	Rect backgroundC {backgroundAPosition, 1000.0f / 750.0f * 2.0f, 2.0, true, false, textureList[TEX_ID_LEVEL_SPRINT_BG]};
+	physics.addBody(&backgroundC);
 	
 	button *resumeButton = createButton(ww/2.0,wh/2.0,ww/4,ww/20,textureList[TEX_ID_BUTTON_RESUME]);
 	button *quitButton = createButton(ww/2.0,wh/1.5,ww/5,ww/25,textureList[TEX_ID_BUTTON_QUIT_MAIN]);
@@ -134,6 +150,7 @@ GLuint levelSprint()
 	Rect pauseMenu { pauseLayer, 3, (float)((3.0*wh)/ww), true, false, textureList[TEX_ID_PAUSE_MENU_BG] };
 	Uint32 buttonsHeld = (0b0);
 	bool shouldClose = false;
+
 
 	while(!shouldClose)
 	{
@@ -160,9 +177,10 @@ GLuint levelSprint()
 			}
 		}
 
+		physics.camera.x = player.body.getPosition().x;
+		loopBG(backgroundA, backgroundB, backgroundC, player.body.getPosition().x);
 		player.update(buttonsHeld);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		renderBackground(textureList[TEX_ID_LEVEL_SPRINT_BG]);
 		if(!paused)
 		{
 			player.update(buttonsHeld);

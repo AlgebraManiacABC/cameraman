@@ -14,7 +14,7 @@
 #include <cmath>
 
 
-Player::Player(vec2 position) : body { position, 0.125, 0.25, false, true, textureList[TEX_ID_CAMERAMAN_R1] } {
+Player::Player(vec2 position) : body { position, 0.2, 0.4, false, true, textureList[TEX_ID_CAMERAMAN_R1] } {
 	this->moveSpeed = 1.0;
 	this->jumpHeight = 4.0;
 	this->score = 0;
@@ -46,9 +46,10 @@ void Player::updateCameraAngle() {
 
 	float angleDifference = std::fmod((angleDiff(targetAngle, cameraAngle) + PI), (2.0f * PI));
 
-	char buffer[512] = {0};
-	sprintf(buffer, "%0.2f", angleDifference);
-	SDL_SetWindowTitle(w, buffer);
+	angleDifference += 0.1;
+	// char buffer[512] = {0};
+	// sprintf(buffer, "%0.2f", angleDifference);
+	// SDL_SetWindowTitle(w, buffer);
 }
 void Player::update(Uint32 buttonsHeld) {
 	this->updateControls(buttonsHeld);

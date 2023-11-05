@@ -18,26 +18,12 @@ Rect::Rect(vec3 pos, float width, float height, bool isStatic, bool hasCollision
 	vec3 scale = {height,height,1};
 	glm_scale(iMatrix,scale);
 	glm_mat4_copy(iMatrix,this->modelMatrix);
-	this->updateMatrix();
 }
 float Rect::getWidth() {
 	return this->width;
 }
 float Rect::getHeight() {
 	return this->height;
-}
-
-void Rect::updateMatrix() {
-	float aspectRatio = static_cast<float>(wh) / ww;
-	mat4 transformation = GLM_MAT4_IDENTITY_INIT;
-	vec3 position = { this->position.x * aspectRatio, this->position.y, this->depth };
-	glm_translate(transformation, position);
-
-	Vector2<float> scale = { aspectRatio * static_cast<float>(this->width), static_cast<float>(this->height) };
-	vec3 transformScale = { scale.x, scale.y, 1.0 };
-	glm_scale(transformation, transformScale);
-
-	glm_mat4_copy(transformation, this->modelMatrix);
 }
 
 Vector2<float> Rect::getIntersection(Rect& bodyB) {
@@ -69,10 +55,4 @@ bool Rect::isColliding(Rect& bodyB) {
 }
 void Rect::translate(Vector2<float>& translation) {
 	this->position += translation;
-}
-
-Vector2<float> Rect::distanceToScreen(Vector2<int> screenPoint) {
-	float aspectRatio = static_cast<float>(wh) / ww;
-	Vector2<float> dist { screenPoint.x / static_cast<float>(ww) - 0.95f - this->position.x * aspectRatio * 0.5f, screenPoint.y / static_cast<float>(wh) * -1.0f + 0.75f - this->position.y * 0.5f };
-	return dist;
 }
