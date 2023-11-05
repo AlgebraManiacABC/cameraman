@@ -15,7 +15,7 @@ struct Controls {
 
 class Player {
 private:
-	void updateCameraAngle();
+	void updateCameraAngle(float& score);
 	void updateControls(Uint32 buttonsHeld);
 	bool canJump { true };
 	
@@ -30,5 +30,5 @@ public:
 	Vector2<int> mouse {};
 	int score;
 
-	void update(Uint32 buttonsHeld);
+	void update(Uint32 buttonsHeld, float& score);
 };

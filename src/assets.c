@@ -6,7 +6,7 @@ GLuint textureList[NUM_TEXTURES] = {0};
 
 char * assetPaths[NUM_TEXTURES]=
 {
-	"../assets/mainMenuBG.png",
+	"../assets/mainMenu.png",
 	"../assets/levelSelectBG.png",
 	"../assets/levelSprintBG.png",
 	"../assets/levelSprintThumb.png",
@@ -17,7 +17,17 @@ char * assetPaths[NUM_TEXTURES]=
 	"../assets/quitMain.png",
 	"../assets/resume.png",
 	"../assets/floor.png",
-	"../assets/vault.png"
+	"../assets/vault.png",
+	"../assets/player/Body1.png",
+	"../assets/player/Body2.png",
+	"../assets/player/Body3.png",
+	"../assets/player/Body4.png",
+	"../assets/sprinter/Sprinter1.png",
+	"../assets/sprinter/Sprinter2.png",
+	"../assets/sprinter/Sprinter3.png",
+	"../assets/sprinter/Sprinter4.png",
+	"../assets/ratingsBackground.png",
+	"../assets/ratingsBar.png"
 };
 
 GLuint TEX_ID_LEVEL_THUMBS[LEVEL_COUNT] =

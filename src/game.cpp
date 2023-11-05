@@ -120,6 +120,8 @@ void loopBG(Rect& backgroundA, Rect& backgroundB, Rect& backgroundC, float playe
 
 GLuint levelSprint()
 {
+	float score = 1.0;
+
     std::random_device rd;
     std::mt19937 mt(rd());
     std::uniform_real_distribution<double> getRandom(0.0, 1.0);
@@ -136,17 +138,17 @@ GLuint levelSprint()
 	physics.addBody(&floorA);
 
 	
-	vec3 targetPosition = { 0.5, -0.2, 0.4 };
-	Rect target {targetPosition, 0.2, 0.4, true, false, textureList[TEX_ID_CAMERAMAN_R1]};
+	vec3 targetPosition = { 0.5, -0.05f, 0.4 };
+	Rect target {targetPosition, 460.0f / 662.0f * 0.4f, 0.4, true, false, textureList[TEX_ID_SPRINTER1]};
 	physics.addBody(&target);
 	player.target = &target;
 
 	vec3 backgroundAPosition = { 0.0, 0.0, 0.5 };
-	Rect backgroundA {backgroundAPosition, 1000.0f / 750.0f * 2.0f, 2.0, true, false, textureList[TEX_ID_LEVEL_SPRINT_BG]};
+	Rect backgroundA {backgroundAPosition, 240.0f / 90.0f * 2.0f, 2.0, true, false, textureList[TEX_ID_LEVEL_SPRINT_BG]};
 	physics.addBody(&backgroundA);
-	Rect backgroundB {backgroundAPosition, 1000.0f / 750.0f * 2.0f, 2.0, true, false, textureList[TEX_ID_LEVEL_SPRINT_BG]};
+	Rect backgroundB {backgroundAPosition, 240.0f / 90.0f * 2.0f, 2.0, true, false, textureList[TEX_ID_LEVEL_SPRINT_BG]};
 	physics.addBody(&backgroundB);
-	Rect backgroundC {backgroundAPosition, 1000.0f / 750.0f * 2.0f, 2.0, true, false, textureList[TEX_ID_LEVEL_SPRINT_BG]};
+	Rect backgroundC {backgroundAPosition, 240.0f / 90.0f * 2.0f, 2.0, true, false, textureList[TEX_ID_LEVEL_SPRINT_BG]};
 	physics.addBody(&backgroundC);
 
 	std::vector<Rect*> obstacles {};
@@ -219,11 +221,14 @@ GLuint levelSprint()
 
 
 		loopBG(backgroundA, backgroundB, backgroundC, player.body.getPosition().x);
-		player.update(buttonsHeld);
+		player.update(buttonsHeld, score);
+		if (score <= 0 || player.body.getPosition().x >= maxDistance) {
+			return STATUS_LEVEL_SELECT;
+		}
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		if(!paused)
 		{
-			player.update(buttonsHeld);
 			physics.update(deltaTime / 1000);
 		}
 		else

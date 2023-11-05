@@ -14,7 +14,7 @@
 #include <cmath>
 
 
-Player::Player(vec2 position) : body { position, 0.2, 0.4, false, true, textureList[TEX_ID_CAMERAMAN_R1] } {
+Player::Player(vec2 position) : body { position, 0.2, 0.4, false, true, textureList[TEX_ID_PLAYER1] } {
 	this->moveSpeed = 1.0;
 	this->jumpHeight = 4.0;
 	this->score = 0;
@@ -35,7 +35,7 @@ void Player::updateControls(Uint32 buttonsHeld) {
 	this->controls.left  = static_cast<bool>(buttonsHeld & HOLDING_A);
 	this->controls.right = static_cast<bool>(buttonsHeld & HOLDING_D);
 }
-void Player::updateCameraAngle() {
+void Player::updateCameraAngle(float& score) {
 	constexpr float PI = 3.14159265;
 	SDL_GetGlobalMouseState(&this->mouse.x, &this->mouse.y);
 	Vector2<float> mousePlayerDistance = this->body.distanceToScreen(this->mouse);
@@ -44,16 +44,20 @@ void Player::updateCameraAngle() {
 	Vector2<float> playerTargetDistance = this->body.getPosition() - this->target->getPosition();
 	float targetAngle = std::atan2(playerTargetDistance.y, playerTargetDistance.x);
 
-	float angleDifference = std::fmod((angleDiff(targetAngle, cameraAngle) + PI), (2.0f * PI));
-
-	angleDifference += 0.1;
-	// char buffer[512] = {0};
-	// sprintf(buffer, "%0.2f", angleDifference);
-	// SDL_SetWindowTitle(w, buffer);
+	float angleDifference = std::fmod((angleDiff(targetAngle, cameraAngle) + PI * 3.0f), (2.0f * PI));
+	
+	if (std::abs(angleDifference) < 0.7 && playerTargetDistance.length() < 1.0) {
+		score += 0.003;
+	}
+	else {
+		score -= 0.001;
+	}
+	if (score < 0) score = 0;
+	if (score > 1) score = 1;
 }
-void Player::update(Uint32 buttonsHeld) {
+void Player::update(Uint32 buttonsHeld, float& score) {
 	this->updateControls(buttonsHeld);
-	this->updateCameraAngle();
+	this->updateCameraAngle(score);
 	Vector2<float>& velocity = this->body.getVelocity();
 	Vector2<float> movement { (this->controls.right - this->controls.left) * this->moveSpeed, 0 };
 	movement.x -= velocity.x * 0.5;
