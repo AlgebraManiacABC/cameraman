@@ -12,8 +12,9 @@ extern "C"
 #define TEX_ID_LEVEL_SPRINT_BG    (2)
 #define TEX_ID_LEVEL_SPRINT_THUMB (3)
 #define TEX_ID_CAMERAMAN_R1       (4)
-#define TEX_ID_BUTTON_PLAY        (5)
-#define TEX_ID_BUTTON_QUIT_MAIN   (6)
+#define TEX_ID_CAMERA             (5)
+#define TEX_ID_BUTTON_PLAY        (6)
+#define TEX_ID_BUTTON_QUIT_MAIN   (7)
 extern GLuint textureList[NUM_TEXTURES];
 
 extern GLuint TEX_ID_LEVEL_THUMBS[LEVEL_COUNT];
