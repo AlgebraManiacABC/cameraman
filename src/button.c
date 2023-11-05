@@ -50,6 +50,20 @@ int getButtonH(button *butt)
 	return butt->h;
 }
 
+void placeButton(button *butt, int x, int y)
+{
+	butt->x = x;
+	butt->y = y;
+}
+
+void recreateButton(button *butt, int x, int y, int w, int h)
+{
+	butt->x = x;
+	butt->y = y;
+	butt->w = w;
+	butt->h = h;
+}
+
 bool mouseOverButton(button *butt, int mouseX, int mouseY)
 {
 	if(mouseX <= butt->x + (butt->w/2) && mouseX >= butt->x - (butt->w/2))

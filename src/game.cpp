@@ -12,6 +12,7 @@
 #include <cmath>
 
 bool paused = false;
+Uint8 levelsCompleted = 0b0;
 
 GLuint STATUS_LEVEL_PICK[LEVEL_COUNT]
 {
@@ -108,7 +109,7 @@ GLuint levelSprint()
 	Physics physics {};
 	physics.gravity.y = -10.0;
 	
-	vec3 startingPosition { 0.0, 0.0, 0.0 };
+	vec3 startingPosition { 0.0, 0.0, 0.5 };
 	Player player { startingPosition };
 	physics.addBody(&player.body);
 	
@@ -116,13 +117,15 @@ GLuint levelSprint()
 	Rect floorA {floorAPosition, 0.5, 0.25, true, true, textureList[TEX_ID_FLOOR]};
 	physics.addBody(&floorA);
 
-	vec3 floorBPosition = { 0.0, -0.5, 0.0 };
+	vec3 floorBPosition = { 0.0, -0.5, 0.5 };
 	Rect floorB {floorBPosition, 2.0, 0.2, true, true, textureList[TEX_ID_FLOOR]};
 	physics.addBody(&floorB);
 
 	
 	button *resumeButton = createButton(ww/2.0,wh/2.0,ww/4,ww/20,textureList[TEX_ID_BUTTON_RESUME]);
 	button *quitButton = createButton(ww/2.0,wh/1.5,ww/5,ww/25,textureList[TEX_ID_BUTTON_QUIT_MAIN]);
+	vec3 pauseLayer = {0.0, 0.0, 0.22};
+	Rect pauseMenu { pauseLayer, 3, (float)((3.0*wh)/ww), true, false, textureList[TEX_ID_PAUSE_MENU_BG] };
 	Uint32 buttonsHeld = (0b0);
 	bool shouldClose = false;
 	Vector2<int> mouse {};
@@ -132,6 +135,11 @@ GLuint levelSprint()
 		const float deltaTime = 1000 / FPS;
 		(void)handleEvents(&shouldClose, &buttonsHeld);
 		if(shouldClose) return STATUS_GAME_EXIT;
+		if(windowResizedThisFrame)
+		{
+			recreateButton(resumeButton,ww/2.0,wh/2.0,ww/4,ww/20);
+			recreateButton(quitButton,ww/2.0,wh/1.5,ww/5,ww/25);
+		}
 
 		if(buttonsHeld & HOLDING_RETURN)
 		{
@@ -146,8 +154,6 @@ GLuint levelSprint()
 				SDL_Delay(100);
 			}
 		}
-
-		if(buttonsHeld & HOLDING_RETURN) return STATUS_LEVEL_SELECT;
 
 		SDL_GetGlobalMouseState(&mouse.x, &mouse.y);
 		// Vector2<float> mousePlayerDistance = mouse - 
@@ -165,7 +171,7 @@ GLuint levelSprint()
 		else
 		{
 			physics.render();
-			renderBackground(textureList[TEX_ID_PAUSE_MENU_BG]);
+			pauseMenu.render();
 			renderButton(resumeButton);
 			renderButton(quitButton);
 
@@ -174,7 +180,8 @@ GLuint levelSprint()
 				paused = false;
 				deactivateButton(resumeButton);
 			}
-			else if(updateButton(quitButton) == BUTTON_ACTIVATED) return STATUS_GAME_EXIT;
+			else if(updateButton(quitButton) == BUTTON_ACTIVATED)
+				return STATUS_GAME_EXIT;
 		}
 
 		SDL_GL_SwapWindow(w);

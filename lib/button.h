@@ -56,6 +56,9 @@ int getButtonY(button *b);
 int getButtonW(button *b);
 int getButtonH(button *b);
 
+void placeButton(button *b, int x, int y);
+void recreateButton(button *butt, int x, int y, int w, int h);
+
 bool mouseOverButton(button *b, int mouseX, int mouseY);
 
 buttonState updateButton(button *b);

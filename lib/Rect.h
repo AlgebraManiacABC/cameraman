@@ -8,7 +8,7 @@
 #include <functional>
 #include "Event.h"
 
-//	`vec2` pos, `vec2` width-height, `bool` isStatic, `GLuint` tex, `GLuint` buffer
+//	`vec3` pos, `float` width, `float` height, `bool` isStatic, `GLuint` tex, `GLuint` buffer
 class Rect : public Body {
 private:
 	float width;
