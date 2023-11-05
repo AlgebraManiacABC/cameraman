@@ -6,8 +6,9 @@
 #include "render.h"
 #include "Physics.h"
 #include "Rect.h"
+#include "main.h"
 
-GLuint (*fnPointers[])(SDL_Window*) =
+GLuint (*fnPointers[])() =
 {
 	NULL,
 	mainMenu,
@@ -15,7 +16,7 @@ GLuint (*fnPointers[])(SDL_Window*) =
 	levelSprint
 };
 
-void playGame(SDL_Window *w)
+void playGame()
 {
 	int ww, wh;
 	SDL_GetWindowSize(w,&ww,&wh);
@@ -27,7 +28,7 @@ void playGame(SDL_Window *w)
 	GLuint status = STATUS_MAIN_MENU;
 	while(status != STATUS_GAME_EXIT)
 	{
-		status = fnPointers[status](w);
+		status = fnPointers[status]();
 		//switch(status)
 		//{
 		//	case STATUS_MAIN_MENU:
@@ -43,7 +44,7 @@ void playGame(SDL_Window *w)
 	}
 }
 
-GLuint mainMenu(SDL_Window *w)
+GLuint mainMenu()
 {
 	//fprintf(stderr,"Main Menu\n");
 	Uint32 buttonsHeld = (0b0);
@@ -63,7 +64,7 @@ GLuint mainMenu(SDL_Window *w)
 	return STATUS_GAME_EXIT;
 }
 
-GLuint levelSelect(SDL_Window *w)
+GLuint levelSelect()
 {
 	//fprintf(stderr,"Level Select\n");
 	Uint32 buttonsHeld = (0b0);
@@ -83,7 +84,7 @@ GLuint levelSelect(SDL_Window *w)
 	return STATUS_GAME_EXIT;
 }
 
-GLuint levelSprint(SDL_Window *w)
+GLuint levelSprint()
 {
 	Physics physics {};
 	vec2 pos = { 0.0, 0.0 };

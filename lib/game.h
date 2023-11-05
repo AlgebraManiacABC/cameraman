@@ -25,18 +25,16 @@
 
 /**
  * Initializes all important game assets, then opens the main menu
- * 
- * @param w The `SDL_Window *` created with a gl context
  */
-void playGame(SDL_Window *w);
+void playGame(void);
 
 //	All functions after this point return a status,
 //	which tells the playGame function where to go next.
 
-GLuint mainMenu(SDL_Window *w);
+GLuint mainMenu(void);
 
-GLuint levelSelect(SDL_Window *w);
+GLuint levelSelect(void);
 
-GLuint levelSprint(SDL_Window *w);
+GLuint levelSprint(void);
 
 #endif
