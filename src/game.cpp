@@ -9,6 +9,17 @@
 #include "main.h"
 #include "button.h"
 
+GLuint STATUS_LEVEL_PICK[LEVEL_COUNT]
+{
+	STATUS_LEVEL_SPRINT,
+	//STATUS_LEVEL_SKIING,
+	//STATUS_LEVEL_SHARK,
+	//STATUS_LEVEL_VOLCANO,
+	//STATUS_LEVEL_NUCLEAR,
+	//STATUS_LEVEL_ROCKET,
+	//STATUS_LEVEL_BLACK_HOLE
+};
+
 GLuint (*fnPointers[])() =
 {
 	NULL,
@@ -56,6 +67,14 @@ GLuint mainMenu()
 
 GLuint levelSelect()
 {
+	int levelButtonWidth = ww/10;
+	button * levelButtons[LEVEL_COUNT] = {0};
+	for(int i=0; i<LEVEL_COUNT; i++)
+	{
+		levelButtons[i] = createButton(i+levelButtonWidth,levelButtonWidth,
+				levelButtonWidth,levelButtonWidth,
+				textureList[TEX_ID_LEVEL_THUMBS[i]]);
+	}
 	Uint32 buttonsHeld = (0b0);
 	bool shouldClose = false;
 	while(!shouldClose)
@@ -63,10 +82,17 @@ GLuint levelSelect()
 		(void)handleEvents(&shouldClose, &buttonsHeld);
 		if(shouldClose) return STATUS_GAME_EXIT;
 
-		if(buttonsHeld & HOLDING_RETURN) return STATUS_LEVEL_SPRINT;
+		for(int i=0; i<LEVEL_COUNT; i++)
+		{
+			if(updateButton(levelButtons[i]) == BUTTON_ACTIVATED) return STATUS_LEVEL_PICK[i];
+		}
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		renderBackground(textureList[TEX_ID_LEVEL_SELECT_BG]);
+		for(int i=0; i<LEVEL_COUNT; i++)
+		{
+			renderButton(levelButtons[i]);
+		}
 		SDL_GL_SwapWindow(w);
 		SDL_Delay(1000/FPS);
 	}
