@@ -20,10 +20,10 @@ GLfloat backgroundVertices[] =
 GLuint bodyVertexBuffer = 0;
 GLfloat bodyVertices[] =
 {
-	-0.5,  0.5, 0.25,  0, 1,	//	Top left
-	 0.5,  0.5, 0.25,  1, 1,	//	Top right
-	-0.5, -0.5, 0.25,  0, 0,	//	Bottom left
-	 0.5, -0.5, 0.25,  1, 0	//	Bottom right
+	-0.5,  0.5, 0.2,  0, 1,	//	Top left
+	 0.5,  0.5, 0.2,  1, 1,	//	Top right
+	-0.5, -0.5, 0.2,  0, 0,	//	Bottom left
+	 0.5, -0.5, 0.2,  1, 0	//	Bottom right
 };
 
 GLuint squareVertexBuffer = 0;

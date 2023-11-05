@@ -103,13 +103,17 @@ GLuint levelSprint()
 {
 	Physics physics {};
 	physics.gravity.y = -10.0;
-	vec2 cameramanPosition = { 0.0, 0.5 };
+	vec2 cameramanPosition = { 0.125, 0.5 };
 	Rect cameraman {cameramanPosition, 0.125, 0.25, false, textureList[TEX_ID_CAMERAMAN_R1]};
 	physics.addBody(&cameraman);
 	
-	vec2 floorPosition = { -0.27, -0.3 };
-	Rect floor {floorPosition, 0.5, 0.5, true, textureList[TEX_ID_FLOOR]};
+	vec2 floorPosition = { -0.15, -0.3 };
+	Rect floor {floorPosition, 0.5, 0.25, true, textureList[TEX_ID_FLOOR]};
 	physics.addBody(&floor);
+
+	vec2 floorBPosition = { 0.0, -0.5 };
+	Rect floorB {floorBPosition, 2.0, 0.2, true, textureList[TEX_ID_FLOOR]};
+	physics.addBody(&floorB);
 
 	
 	Uint32 buttonsHeld = (0b0);

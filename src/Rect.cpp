@@ -2,6 +2,7 @@
 #include "Vector2.h"
 #include "cglm/cglm.h"
 #include "main.h"
+#include "render.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 
@@ -25,11 +26,11 @@ float Rect::getHeight() {
 }
 
 void Rect::updateMatrix() {
+	float aspectRatio = static_cast<float>(wh) / ww;
 	mat4 transformation = GLM_MAT4_IDENTITY_INIT;
-	vec3 position = { this->position.x, this->position.y, 0.0 };
+	vec3 position = { this->position.x * aspectRatio, this->position.y, 0.0 };
 	glm_translate(transformation, position);
 
-	float aspectRatio = static_cast<float>(wh) / ww;
 	Vector2<float> scale = { aspectRatio * static_cast<float>(this->width), static_cast<float>(this->height) };
 	vec3 transformScale = { scale.x, scale.y, 1.0 };
 	glm_scale(transformation, transformScale);
