@@ -110,6 +110,11 @@ void Physics::solveCollision(Rect& bodyA, Rect& bodyB) {
 		velocityA += forceA;
 		velocityB += forceB;
 	}
+
+	Collision collisionA { normal, &bodyA, &bodyB };
+	bodyA.triggerCollision(collisionA);
+	Collision collisionB { normal * -1, &bodyB, &bodyA };
+	bodyA.triggerCollision(collisionB);
 }
 
 void Physics::addBody(Rect* body) {

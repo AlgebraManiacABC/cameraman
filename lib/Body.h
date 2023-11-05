@@ -40,6 +40,7 @@ public:
 	void setVelocity(Vector2<float>& newVelocity);
 
 	void render();
+	bool isPlayer = false;
 };
 
 

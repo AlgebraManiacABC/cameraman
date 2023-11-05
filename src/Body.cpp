@@ -8,6 +8,7 @@ Body::Body(GLuint texture) {
 	this->texture = texture;
 	this->indexBuffer = bodyVertexBuffer;
 	this->frictionAir = 0.05;
+	this->isPlayer = false;
 
 	mat4 iMatrix = GLM_MAT4_IDENTITY_INIT;
 	glm_mat4_copy(iMatrix,this->modelMatrix);

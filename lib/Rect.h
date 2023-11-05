@@ -4,6 +4,9 @@
 #include "Body.h"
 #include "Vector2.h"
 #include "cglm/cglm.h"
+#include "Collision.h"
+#include <functional>
+#include "Event.h"
 
 //	`vec2` pos, `vec2` width-height, `bool` isStatic, `GLuint` tex, `GLuint` buffer
 class Rect : public Body {
@@ -22,6 +25,13 @@ public:
 	bool isColliding(Rect& bodyB);
 	void updateMatrix();
 	virtual void translate(Vector2<float>& translation);
+
+	Event* onCollision = nullptr;
+	void triggerCollision(Collision collision) {
+		if (this->onCollision != nullptr) {
+			this->onCollision->callback(collision);
+		}
+	}
 };
 
 #endif
