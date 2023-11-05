@@ -41,6 +41,8 @@ public:
 
 	void render();
 	bool isPlayer = false;
+
+	virtual ~Body() {};
 };
 
 

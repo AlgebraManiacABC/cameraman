@@ -10,6 +10,7 @@
 #include "button.h"
 #include "Player.h"
 #include <cmath>
+#include <random>
 
 bool paused = false;
 Uint8 levelsCompleted = 0b0;
@@ -119,6 +120,10 @@ void loopBG(Rect& backgroundA, Rect& backgroundB, Rect& backgroundC, float playe
 
 GLuint levelSprint()
 {
+    std::random_device rd;
+    std::mt19937 mt(rd());
+    std::uniform_real_distribution<double> getRandom(0.0, 1.0);
+
 	Physics physics {};
 	physics.gravity.y = -10.0;
 	
@@ -127,11 +132,11 @@ GLuint levelSprint()
 	physics.addBody(&player.body);
 	
 	vec3 floorAPosition = { 2.5, -0.6, 0.4 };
-	Rect floorA {floorAPosition, 8.0, 0.25, true, true, textureList[TEX_ID_FLOOR]};
+	Rect floorA {floorAPosition, 100.0, 0.25, true, true, textureList[TEX_ID_FLOOR]};
 	physics.addBody(&floorA);
 
 	
-	vec3 targetPosition = { 0.5, 0.3, 0.4 };
+	vec3 targetPosition = { 0.5, -0.2, 0.4 };
 	Rect target {targetPosition, 0.2, 0.4, true, false, textureList[TEX_ID_CAMERAMAN_R1]};
 	physics.addBody(&target);
 	player.target = &target;
@@ -143,6 +148,25 @@ GLuint levelSprint()
 	physics.addBody(&backgroundB);
 	Rect backgroundC {backgroundAPosition, 1000.0f / 750.0f * 2.0f, 2.0, true, false, textureList[TEX_ID_LEVEL_SPRINT_BG]};
 	physics.addBody(&backgroundC);
+
+	std::vector<Rect*> obstacles {};
+	auto createVault = [&](float x) {
+		vec3 vaultPos = { x, -0.4, 0.4 };
+		Rect* vault = new Rect(vaultPos, 3 * 0.02f, 14 * 0.02f, true, true, textureList[TEX_ID_VAULT]);
+		physics.addBody(vault);
+		obstacles.push_back(vault);
+	};
+
+	float maxDistance = 16.0;
+	float totalVaultX = 0.5;
+	for (int i = 0; i < 20; ++i) {
+		totalVaultX += getRandom(mt) * 0.8 + 0.8;
+		if (totalVaultX >= maxDistance) {
+			break;
+		}
+		createVault(totalVaultX);
+	}
+
 	
 	button *resumeButton = createButton(ww/2.0,wh/2.0,ww/4,ww/20,textureList[TEX_ID_BUTTON_RESUME]);
 	button *quitButton = createButton(ww/2.0,wh/1.5,ww/5,ww/25,textureList[TEX_ID_BUTTON_QUIT_MAIN]);
@@ -150,11 +174,14 @@ GLuint levelSprint()
 	Rect pauseMenu { pauseLayer, 3, (float)((3.0*wh)/ww), true, false, textureList[TEX_ID_PAUSE_MENU_BG] };
 	Uint32 buttonsHeld = (0b0);
 	bool shouldClose = false;
+	float time = 0;
+	
 
 
 	while(!shouldClose)
 	{
 		const float deltaTime = 1000 / FPS;
+		time += deltaTime;
 		(void)handleEvents(&shouldClose, &buttonsHeld);
 		if(shouldClose) return STATUS_GAME_EXIT;
 		if(windowResizedThisFrame)
@@ -177,7 +204,20 @@ GLuint levelSprint()
 			}
 		}
 
+		// move target
+		if (time > 600) {
+			Vector2<float> lastPosition { target.getPosition() };
+			Vector2<float> newPosition { lastPosition.x + 0.9f * deltaTime / 1000, lastPosition.y };
+			target.setPosition(newPosition);
+		}
+		
+		// move camera
 		physics.camera.x = player.body.getPosition().x;
+		if (std::abs(target.getPosition().x - player.body.getPosition().x) < 0.9) {
+			physics.camera.x = (target.getPosition().x + player.body.getPosition().x) / 2;
+		}
+
+
 		loopBG(backgroundA, backgroundB, backgroundC, player.body.getPosition().x);
 		player.update(buttonsHeld);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -205,5 +245,10 @@ GLuint levelSprint()
 		SDL_GL_SwapWindow(w);
 		SDL_Delay(deltaTime);
 	}
+
+	for (Rect* obstacle : obstacles) {
+		delete obstacle;
+	}
+
 	return STATUS_GAME_EXIT;
 }
