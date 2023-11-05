@@ -42,6 +42,8 @@ typedef struct button button;
 typedef Uint8 buttonState;
 
 button *createButton(int x, int y, int w, int h, GLuint texture);
+void deleteButton(button *b);
+
 buttonState getButtonState(button *b);
 
 int getButtonX(button *b);

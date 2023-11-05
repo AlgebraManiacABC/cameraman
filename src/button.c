@@ -20,6 +20,11 @@ button *createButton(int x, int y, int w, int h, GLuint texture)
 	butt->texture = texture;
 }
 
+void deleteButton(button *b)
+{
+	if(b) free(b);
+}
+
 buttonState getButtonState(button *butt)
 {
 	return butt->state;
