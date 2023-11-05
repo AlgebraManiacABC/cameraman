@@ -6,9 +6,11 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 
-Rect::Rect(vec2 pos, float width, float height, bool isStatic, GLuint texture) 
+Rect::Rect(vec3 pos, float width, float height, bool isStatic, bool hasCollisions, GLuint texture) 
  : Body(texture) {
 	this->position = Vector2(pos[0], pos[1]);
+	this->hasCollisions = hasCollisions;
+	this->depth = pos[2];
 	this->width  = width;
 	this->height = height;
 	this->isStatic = isStatic;
@@ -28,7 +30,7 @@ float Rect::getHeight() {
 void Rect::updateMatrix() {
 	float aspectRatio = static_cast<float>(wh) / ww;
 	mat4 transformation = GLM_MAT4_IDENTITY_INIT;
-	vec3 position = { this->position.x * aspectRatio, this->position.y, 0.0 };
+	vec3 position = { this->position.x * aspectRatio, this->position.y, this->depth };
 	glm_translate(transformation, position);
 
 	Vector2<float> scale = { aspectRatio * static_cast<float>(this->width), static_cast<float>(this->height) };

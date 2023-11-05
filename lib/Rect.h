@@ -13,9 +13,10 @@ class Rect : public Body {
 private:
 	float width;
 	float height;
+	float depth;
 
 public:
-	Rect(vec2 pos, float width, float height, bool isStatic, GLuint texture);
+	Rect(vec3 pos, float width, float height, bool isStatic, bool hasCollisions, GLuint texture);
 	~Rect();
 
 	float getWidth();
@@ -25,6 +26,7 @@ public:
 	bool isColliding(Rect& bodyB);
 	void updateMatrix();
 	virtual void translate(Vector2<float>& translation);
+	bool hasCollisions { true };
 
 	Event* onCollision = nullptr;
 	void triggerCollision(Collision collision) {

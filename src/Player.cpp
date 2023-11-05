@@ -12,7 +12,7 @@
 #include "Event.h"
 
 
-Player::Player(vec2 position) : body { position, 0.125, 0.25, false, textureList[TEX_ID_CAMERAMAN_R1] } {
+Player::Player(vec2 position) : body { position, 0.125, 0.25, false, true, textureList[TEX_ID_CAMERAMAN_R1] } {
 	this->moveSpeed = 1.0;
 	this->jumpHeight = 4.0;
 	this->canJump = true;

@@ -18,6 +18,7 @@ std::vector<std::pair<Rect*, Rect*>> Physics::getPairs() {
 	for (int i = 0; i < length - 1; ++i) {
 		for (int j = i + 1; j < length; ++j) {
 			if (!(bodies.at(i)->getStatic() && bodies.at(j)->getStatic())) {
+				if (!(bodies.at(i)->hasCollisions && bodies.at(j)->hasCollisions)) continue;
 				pairs.push_back({ bodies.at(i), bodies.at(j) });
 			}
 		}
@@ -71,6 +72,9 @@ void Physics::solveCollision(Rect& bodyA, Rect& bodyB) {
 	bool staticB = bodyB.getStatic();
 
 	if (staticA && staticB) { // 2 static bodies shouldn't move each other
+		return;
+	}
+	if (!bodyA.hasCollisions || !bodyB.hasCollisions) {
 		return;
 	}
 	

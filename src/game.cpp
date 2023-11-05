@@ -105,16 +105,16 @@ GLuint levelSprint()
 	Physics physics {};
 	physics.gravity.y = -10.0;
 	
-	vec2 startingPosition { 0.0, 0.0 };
+	vec3 startingPosition { 0.0, 0.0, 0.0 };
 	Player player { startingPosition };
 	physics.addBody(&player.body);
 	
-	vec2 floorAPosition = { -0.15, -0.3 };
-	Rect floorA {floorAPosition, 0.5, 0.25, true, textureList[TEX_ID_FLOOR]};
+	vec3 floorAPosition = { -0.15, -0.3, 0.5 };
+	Rect floorA {floorAPosition, 0.5, 0.25, true, true, textureList[TEX_ID_FLOOR]};
 	physics.addBody(&floorA);
 
-	vec2 floorBPosition = { 0.0, -0.5 };
-	Rect floorB {floorBPosition, 2.0, 0.2, true, textureList[TEX_ID_FLOOR]};
+	vec3 floorBPosition = { 0.0, -0.5, 0.0 };
+	Rect floorB {floorBPosition, 2.0, 0.2, true, true, textureList[TEX_ID_FLOOR]};
 	physics.addBody(&floorB);
 
 	
