@@ -193,7 +193,7 @@ GLuint levelSprint()
 			recreateButton(resumeButton,ww/2.0,wh/1.7,ww/5,ww/25);
 			recreateButton(quitButton,ww/2.0,wh/1.5,ww/5,ww/25);
 		}
-		if(buttonsHeld & HOLDING_RIGHT) return STATUS_LEVEL_SKIING;
+		//if(buttonsHeld & HOLDING_RIGHT) return STATUS_LEVEL_SKIING;
 
 		if(buttonsHeld & HOLDING_ESCAPE && firstFramePressedEscape)
 		{
